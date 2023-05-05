@@ -15,7 +15,8 @@
           <v-text-field
             v-model="search"
             append-icon="mdi-magnify"
-            label="Search"
+            label="Search by Nama Kelas"
+            @input="searchTrainee"
             outlined
             hide
             details
@@ -29,8 +30,8 @@
       <v-card>
         <v-data-table
           :headers="headers"
-          :items="morningWithJamSelesai"
-          :search="{value: search, props: ['nama_kelas']}"
+          :items="filteredMorning"
+          :search="search"
           item-key="id"
           show-expand
         >
@@ -122,8 +123,8 @@
       <v-card>
         <v-data-table
           :headers="headers"
-          :items="afternoonWithJamSelesai"
-          :search="{value: search, props: ['nama_kelas']}"
+          :items="filteredAfternoon"
+          :search="search"
           item-key="desert"
           show-expand
         >
@@ -214,8 +215,8 @@
       <v-card>
         <v-data-table
           :headers="headers"
-          :items="eveningWithJamSelesai"
-          :search="{value: search, props: ['nama_kelas']}"
+          :items="filteredEvening"
+          :search="search"
           item-key="desert"
           show-expand
         >
@@ -313,13 +314,15 @@
           { text: "Nama Kelas", value: "nama_kelas" },
           { text: "Nama Instruktur", value: "nama" },
           { text: "Status", value: "status" },
-          { text: "Status", value: "status" },
+          { text: "Instruktur Pengganti", value: "instruktur_pengganti" },
           { text: "Actions", value: "actions" },
         ],
         morning: [],
         afternoon:[],
         evening:[],
         data: [],
+        trainee: [],
+        filteredTrainee: [],
         formTodo: {
           id:null,
           hari: null,
@@ -409,7 +412,7 @@
     mounted() {
       this.getTrainee();
       this.loadKelasOptions();
-      this.loadInstrukturOptions(); // call the method to load options data
+      this.loadInstrukturOptions();  // call the method to apply search filter on initial data
     },
     methods: {
       getTrainee() {
@@ -431,6 +434,10 @@
               const time = Number(item.jam.split(":")[0]);
               return time >= 17 || time < 5;
             });
+
+            // populate filteredMorning and filteredAfternoon with data
+            this.searchTrainee();
+
             let toast = createToastInterface();
             toast.success("Show Data Success !", {
               timeout: 2000
@@ -441,6 +448,33 @@
             console.log(error.response.data);
           });
       },
+      searchTrainee() {
+        if (!this.search) {
+          this.filteredMorning = this.morningWithJamSelesai;
+          this.filteredAfternoon = this.afternoonWithJamSelesai;
+          this.filteredEvening = this.eveningWithJamSelesai;
+        } else {
+          const searchTerm = this.search.toLowerCase();
+          this.filteredMorning = this.morningWithJamSelesai.filter((item) => {
+            return (
+              item.nama_kelas.toLowerCase().includes(searchTerm)
+            );
+          });
+          this.filteredAfternoon = this.afternoonWithJamSelesai.filter((item) => {
+            return (
+              item.nama_kelas.toLowerCase().includes(searchTerm)
+            );
+          });
+          this.filteredEvening = this.eveningWithJamSelesai.filter((item) => {
+            return (
+              item.nama_kelas.toLowerCase().includes(searchTerm)
+            );
+          });
+        }
+      },
+
+      // other methods...
+
       loadKelasOptions() {
         // fetch data from kelas database
         axios.get('http://192.168.1.5/Server_Go_Fit/public/kelas')
@@ -497,22 +531,14 @@
           });
       },
       save() {
-        // Check if nama_instruktur, hari, and jam already exist in data array
-        // Create a FormData object to hold the form data
-        let formTodo = new FormData();
-        formTodo.append('hari', this.formTodo.hari);
-        formTodo.append('jam', this.formTodo.jam);
-        formTodo.append('nama', this.formTodo.nama);
-        formTodo.append('nama_kelas', this.formTodo.nama_kelas);
-        
         // Send a POST request to the backend API
-        axios.post('http://192.168.1.5/Server_Go_Fit/public/jadwalharian', formTodo)
+        axios.post('http://192.168.1.5/Server_Go_Fit/public/jadwalharian')
           .then(response => {
-            // Handle successful response
             console.log(response.data);
             this.resetForm();
             this.dialog = false;
             this.getTrainee();
+            window.location.reload();
             // Do something with the response data, e.g. show success message
           })
           .catch(error => {
