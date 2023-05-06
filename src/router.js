@@ -70,6 +70,7 @@ export const router = new VueRouter({
           path: "/pembayaran",
           name: "Pembayaran",
           component: importComponent("Kasir/PembayaranPage"),
+          props: (route) => ({ username: route.query.username })
         },
       ],
     },

@@ -53,7 +53,10 @@ export default {
         },
         { title: "Member", to: "/member" },
         { title: "Presensi", to: "/presensi" },  
-        { title: "Pembayaran", to: "/pembayaran" },
+        { 
+          title: "Pembayaran", 
+          to: `/pembayaran?username=${this.username || ''}` 
+        },
         { title: "Keluar", to: "/"},
       ];
     },

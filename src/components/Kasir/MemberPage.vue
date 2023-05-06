@@ -287,32 +287,33 @@
         if (item.status === 'active') {
           // Generate the member card
           const printContents = `
-            <div style="width: 400px; height: 250px; padding: 20px; border: 1px solid black; display: flex; flex-direction: column;">
-              <div style="display: flex; font-weight: bold; font-size: 24px; margin-bottom: 15px;">
-                Go - Fit
-              </div>
-              <div style="text-align: center; font-weight: bold; font-size: 24px; margin-bottom: 20px;">Member Card</div>
-              <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                <div style="font-weight: bold;">Nomor Member:</div>
-                <div>${nomorMember}</div>
-              </div>
-              <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                <div style="font-weight: bold;">Name:</div>
-                <div>${item.nama_member}</div>
-              </div>
-              <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                <div style="font-weight: bold;">Age:</div>
-                <div>${item.umur}</div>
-              </div>
-              <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                <div style="font-weight: bold;">Phone:</div>
-                <div>${item.no_telp}</div>
-              </div>
-              <div style="display: flex; justify-content: space-between;">
-                <div style="font-weight: bold;">Expiration:</div>
-                <div style="font-size: 16px;">${item.Expiration_Date}</div>
-              </div>
-            </div>`;
+          <div style="width: 400px; height: 250px; padding: 20px; border: 2px solid #4CAF50; border-radius: 10px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);">
+            <div style="display: flex; font-weight: bold; font-size: 24px; margin-bottom: 15px; color: #4CAF50;">
+              Go-Fit
+            </div>
+            <div style="text-align: center; font-weight: bold; font-size: 24px; margin-bottom: 20px;">Member Card</div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+              <div style="font-weight: bold; color: #4CAF50;">Nomor Member:</div>
+              <div>${nomorMember}</div>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+              <div style="font-weight: bold; color: #4CAF50;">Name:</div>
+              <div>${item.nama_member}</div>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+              <div style="font-weight: bold; color: #4CAF50;">Age:</div>
+              <div>${item.umur}</div>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+              <div style="font-weight: bold; color: #4CAF50;">Phone:</div>
+              <div>${item.no_telp}</div>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+              <div style="font-weight: bold; color: #4CAF50;">Expiration:</div>
+              <div style="font-size: 16px;">${item.Expiration_Date}</div>
+            </div>
+          </div>
+          `;
           // Create a new window to print the member card
           let toast = createToastInterface();
           toast.success("Generating MemberCard", {
@@ -354,7 +355,7 @@
       },
       getTrainee() {
         axios
-          .get("http://192.168.1.5/Server_Go_Fit/public/member")
+          .get("http://192.168.1.2/Server_Go_Fit/public/member")
           .then((response) => {
             // this.todos = response.data.data;
             this.todos = response.data.data
@@ -376,7 +377,7 @@
             console.log("Password cannot be empty");
             return;
         }
-        axios.put(`http://192.168.1.5/Server_Go_Fit/public/member/${this.formTodo.id_member}`, {
+        axios.put(`http://192.168.1.2/Server_Go_Fit/public/member/${this.formTodo.id_member}`, {
             id_member:this.formTodo.id_member,
             nama_member: this.formTodo.nama_member,
             password: this.formTodo.password,
@@ -392,7 +393,7 @@
         .then(response => {
             console.log("Edit Member success");
             console.log('response password', this.formTodo.password);
-            console.log("Link", `http://192.168.1.5/Server_Go_Fit/public/member/${this.formTodo.id_member}`);
+            console.log("Link", `http://192.168.1.2/Server_Go_Fit/public/member/${this.formTodo.id_member}`);
             // router.push('/dashboardkasir')
             console.log(response.data);
             window.location.reload(); // Refresh the page
@@ -416,7 +417,7 @@
         // this.getTrainee();
       },
       deleteConfirmed() {
-        axios.delete('http://192.168.1.5/Server_Go_Fit/public/member/' + this.itemToDelete.id_member)
+        axios.delete('http://192.168.1.2/Server_Go_Fit/public/member/' + this.itemToDelete.id_member)
           .then(response => {
             console.log(response.data);
             this.getTrainee();
@@ -453,7 +454,7 @@
         formTodo.append('Expiration_Date', date);
         formTodo.append('status', 'active');
         // Send a POST request to the backend API
-        axios.post('http://192.168.1.5/Server_Go_Fit/public/member', formTodo)
+        axios.post('http://192.168.1.2/Server_Go_Fit/public/member', formTodo)
           .then(response => {
             // Handle successful response
             let toast = createToastInterface();
@@ -501,7 +502,7 @@
           } else {
             item.status = "active";
           }
-          axios.put(`http://192.168.1.5/Server_Go_Fit/public/member/${item.id_member}`, {
+          axios.put(`http://192.168.1.2/Server_Go_Fit/public/member/${item.id_member}`, {
             id_member: item.id_member,
             nama_member: item.nama_member,
             password: item.password,
@@ -534,7 +535,7 @@
       },
       resetItem(item){
         axios
-          .put(`http://192.168.1.5/Server_Go_Fit/public/member/${item.id_member}`, {
+          .put(`http://192.168.1.2/Server_Go_Fit/public/member/${item.id_member}`, {
               nama_member: item.nama_member,
               password: item.tanggal_lahir,
               umur: item.umur,
@@ -555,7 +556,7 @@
             }, 2000);
       },
       deleteItem(item) {
-        // axios.delete(`http://192.168.1.5/Server_Go_Fit/public/member/${item.id_member}`)
+        // axios.delete(`http://192.168.1.2/Server_Go_Fit/public/member/${item.id_member}`)
         // window.location.reload();
           this.itemToDelete = item;
           this.confirmDialog = true;

@@ -42,9 +42,6 @@
             <v-icon size="30" color="brown" @click="editItem(item)"
               >mdi-pencil</v-icon
             >
-            <v-icon size="30" color="brown" @click="deleteItem(item)"
-              >mdi-trash-can</v-icon
-            >
           </template>
         </v-data-table>
       </v-card>
@@ -56,32 +53,19 @@
           </v-card-title>
           <v-card-text>
             <v-container>
-              <v-text-field
-                  v-model="formTodo.hari"
-                  label="Tanggal"
-                  required
-                  @click="showDatePicker = true"
-                ></v-text-field>
-                <v-date-picker
-                  v-model="formTodo.hari"
-                  v-if="showDatePicker"
-                  @input="showDatePicker = false"
-                ></v-date-picker>
-              <v-text-field
-                v-model="formTodo.jam"
-                label="Jam"
+              <v-autocomplete
+                v-model="formTodo.status"
+                :items="statusOptions"
+                label="Status Kelas"
                 required
-              ></v-text-field>
-              <v-text-field
-                v-model="formTodo.nama_kelas"
-                label="Nama Kelas"
-                required
-              ></v-text-field>
-              <v-text-field
+              ></v-autocomplete>
+              <v-autocomplete
+                v-if="showInstrukturOptions"
                 v-model="formTodo.nama"
+                :items="instrukturOptions"
                 label="Nama Instruktur"
                 required
-              ></v-text-field> 
+              ></v-autocomplete> 
             </v-container>
           </v-card-text>
           <v-card-actions>
@@ -135,8 +119,6 @@
             <v-icon size="30" color="brown" @click="editItem(item)"
               >mdi-pencil</v-icon
             >
-            <v-icon size="30" color="brown" @click="deleteItem(item)"
-              >mdi-trash-can</v-icon
             >
           </template>
         </v-data-table>
@@ -149,32 +131,19 @@
           </v-card-title>
           <v-card-text>
             <v-container>
-              <v-text-field
-                  v-model="formTodo.hari"
-                  label="Tanggal"
-                  required
-                  @click="showDatePicker = true"
-                ></v-text-field>
-                <v-date-picker
-                  v-model="formTodo.hari"
-                  v-if="showDatePicker"
-                  @input="showDatePicker = false"
-                ></v-date-picker>
-              <v-text-field
-                v-model="formTodo.jam"
-                label="Jam"
+              <v-autocomplete
+                v-model="formTodo.status"
+                :items="statusOptions"
+                label="Status Kelas"
                 required
-              ></v-text-field>
-              <v-text-field
-                v-model="formTodo.nama_kelas"
-                label="Nama Kelas"
-                required
-              ></v-text-field>
-              <v-text-field
+              ></v-autocomplete>
+              <v-autocomplete
+                v-if="showInstrukturOptions"
                 v-model="formTodo.nama"
+                :items="instrukturOptions"
                 label="Nama Instruktur"
                 required
-              ></v-text-field> 
+              ></v-autocomplete> 
             </v-container>
           </v-card-text>
           <v-card-actions>
@@ -227,8 +196,6 @@
             <v-icon size="30" color="brown" @click="editItem(item)"
               >mdi-pencil</v-icon
             >
-            <v-icon size="30" color="brown" @click="deleteItem(item)"
-              >mdi-trash-can</v-icon
             >
           </template>
         </v-data-table>
@@ -242,24 +209,13 @@
           <v-card-text>
             <v-container>
               <v-autocomplete
-                v-model="formTodo.hari"
-                :items="hariOptions"
-                label="Hari"
-                required
-              ></v-autocomplete> 
-              <v-text-field
-                v-model="formTodo.jam"
-                label="Jam"
-                required
-                type="time"
-              ></v-text-field>
-              <v-autocomplete
-                v-model="formTodo.nama_kelas"
-                :items="kelasOptions"
-                label="Nama Kelas"
+                v-model="formTodo.status"
+                :items="statusOptions"
+                label="Status Kelas"
                 required
               ></v-autocomplete>
               <v-autocomplete
+                v-if="showInstrukturOptions"
                 v-model="formTodo.nama"
                 :items="instrukturOptions"
                 label="Nama Instruktur"
@@ -322,13 +278,16 @@
         evening:[],
         data: [],
         trainee: [],
-        filteredTrainee: [],
+        filteredMorning: [],
+        filteredAfternoon: [],
+        filteredEvening: [],
         formTodo: {
           id:null,
-          hari: null,
-          jam: null,
-          nama:null,
+          status: null,
+          jam:null,
+          hari:null,
           nama_kelas: null,
+          nama:null,
         },
         showDatePicker: false,
         formKelas:{
@@ -353,10 +312,18 @@
           'Sabtu',
           'Minggu',
         ],
+        statusOptions:[
+          'scheaduled',
+          'Libur',
+          'Digantikan',
+        ],
         instrukturOptions: [],
       };
     },
     computed: {
+      showInstrukturOptions() {
+        return this.formTodo.status == 'Digantikan';
+      },
       filteredTodos() {
         if (this.search) {
           return this.todos.filter((todo) =>
@@ -417,7 +384,7 @@
     methods: {
       getTrainee() {
         axios
-          .get("http://10.53.7.226/Server_Go_Fit/public/jadwalharian")
+          .get("http://192.168.1.2/Server_Go_Fit/public/jadwalharian")
           .then((response) => {
             // filter and sort the data into morning, afternoon, and evening arrays
             this.morning = response.data.data.filter(item => {
@@ -449,7 +416,7 @@
           });
       },
       checkLastDay() {
-        const url = `http://10.53.7.226/Server_Go_Fit/public/jadwalharian`;
+        const url = `http://192.168.1.2/Server_Go_Fit/public/jadwalharian`;
         axios.get(url)
           .then(response => {
             // Handle successful response
@@ -496,12 +463,11 @@
           });
         }
       },
-
       // other methods...
 
       loadKelasOptions() {
         // fetch data from kelas database
-        axios.get('http://10.53.7.226/Server_Go_Fit/public/kelas')
+        axios.get('http://192.168.1.2/Server_Go_Fit/public/kelas')
           .then(response => {
             // map response data to an array of options
             this.kelasOptions = response.data.data.map((kelas) => kelas.nama_kelas);
@@ -512,7 +478,7 @@
       },
       loadInstrukturOptions() {
         // fetch data from kelas database
-        axios.get('http://10.53.7.226/Server_Go_Fit/public/instruktur')
+        axios.get('http://192.168.1.2/Server_Go_Fit/public/instruktur')
           .then(response => {
             // map response data to an array of options
             this.instrukturOptions = response.data.data.map((instruktur) => instruktur.nama);
@@ -529,7 +495,7 @@
       },
       save() {
         // Send a POST request to the backend API
-        axios.post('http://10.53.7.226/Server_Go_Fit/public/jadwalharian')
+        axios.post('http://192.168.1.2/Server_Go_Fit/public/jadwalharian')
           .then(response => {
             console.log(response.data);
             this.resetForm();
@@ -552,14 +518,12 @@
       editItem(item) {
         this.edit = item;
         this.formTodo.id = item.id;
-        this.formTodo.hari = item.hari;
-        this.formTodo.jam = item.jam;
         this.formTodo.nama = item.nama;
-        // this.formTodo.tanggal_masuk = item.tanggal_masuk;
-        // this.formTodo.tanggal_keluar = item.tanggal_keluar;
-        this.formTodo.nama_kelas = item.nama_kelas;
+        this.formTodo.status = item.status;
+        this.formTodo.jam = item.jam;
+        this.formTodo.hari = item.hari;
         this.confirmEdit = true;
-        console.log(this.formTodo.id)
+        console.log(this.formTodo.status)
       },
       checkDuplicateUpdate() {
         const jamDate = new Date();
@@ -567,62 +531,57 @@
         jamDate.setMinutes(this.formTodo.jam.split(':')[1]);
         const jam = jamDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
         const formattedJam = jam.replace('.', ':');
-  
-        const url = `http://10.53.7.226/Server_Go_Fit/public/jadwalharian/${this.formTodo.nama}/${this.formTodo.hari}/${formattedJam}`;
-        axios.get(url)
-          .then(response => {
-            if (response.data.data) {
-              let toast = createToastInterface();
-              toast.error("Jadwal Instruktur Bertabrakan", {
-                timeout: 2000
-              });
-              return;
-            } else {
-              // Check if data is not changed
-              if (this.formTodo.jam === this.originalData.jam) {
-                this.saveupdate();
-              } else {
-                // Show warning message
+        console.log(this.formTodo.nama)
+        if(this.formTodo.status != 'Digantikan'){
+          this.saveupdate();
+        }else{
+          const url = `http://192.168.1.2/Server_Go_Fit/public/jadwalharian/${this.formTodo.nama}/${this.formTodo.hari}/${formattedJam}`;
+          axios.get(url)
+            .then(response => {
+              if (response.data.data) {
                 let toast = createToastInterface();
-                toast.warning("Data has been changed. Please reload the page and try again", {
+                toast.error("Jadwal Instruktur Bertabrakan", {
                   timeout: 2000
                 });
                 return;
+              } else {
+                // Check if data is not changed
+                if (this.formTodo.jam === this.originalData.jam) {
+                  this.saveupdate();
+                } else {
+                  // Show warning message
+                  let toast = createToastInterface();
+                  toast.warning("Data has been changed. Please reload the page and try again", {
+                    timeout: 2000
+                  });
+                  return;
+                }
               }
-            }
-          })
-          .catch(error => {
-            this.saveupdate();
-            console.error(error);
-          });
+            })
+            .catch(error => {
+              this.saveupdate();
+              console.error(error);
+            });
+        }
+        
       },
       saveupdate() {
-          axios.put(`http://10.53.7.226/Server_Go_Fit/public/jadwalharian/${this.formTodo.id}`, {
-              id:this.formTodo.id,
-              jam: this.formTodo.jam,
-              nama_kelas: this.formTodo.nama_kelas,
+          console.log(this.formTodo.id)
+          axios.put(`http://192.168.1.2/Server_Go_Fit/public/jadwalharian/${this.formTodo.id}`, {
+              status: this.formTodo.status,
               nama: this.formTodo.nama,
-              hari: this.formTodo.hari,
           })
           .then(response => {
-              console.log(response.data);
-              window.location.reload(); // Refresh the page
+              console.log(response.data.data);
+              // Refresh the page
           })
           .catch(error => {
               if (error.response) {
                   console.log("Error response status:", error.response.status);
                   console.log("Error response data:", error.response.data);
-                  if (error.response.data.error === 'PasswordRequired') {
-                      console.log("Password is required");
-                      // Display an error message to the user
-                  }
-              } else if (error.request) {
-                  console.log("No response received:", error.request);
-              } else {
-                  console.log("Error occurred:", error.message);    
               }
-              console.log("Error",this.formTodo)
           });
+          window.location.reload(); 
           this.confirmEdit = false;
           // this.getTrainee();
         },
@@ -632,14 +591,14 @@
         this.confirmEdit = false;
       },
       hapus() {
-        axios.delete(`http://10.53.7.226/Server_Go_Fit/public/jadwalharian/${this.formTodo.id}`)
+        axios.delete(`http://192.168.1.2/Server_Go_Fit/public/jadwalharian/${this.formTodo.id}`)
         window.location.reload();
       },
       cancelDelete() {
         this.confirmDelete = false;
       },
       deleteItem(item) {
-        axios.delete(`http://10.53.7.226/Server_Go_Fit/public/jadwalharian/${item.id}`)
+        axios.delete(`http://192.168.1.2/Server_Go_Fit/public/jadwalharian/${item.id}`)
         window.location.reload();
       },
       resetForm() {
