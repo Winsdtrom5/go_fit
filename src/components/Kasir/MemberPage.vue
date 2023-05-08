@@ -211,7 +211,7 @@
   // import { router } from '../../router'
   import axios from 'axios'
   import { createToastInterface } from "vue-toastification";
-  import jsPDF from 'jspdf';
+  // import jsPDF from 'jspdf';
   export default {
     name: "memberPage",
     data() {
@@ -320,29 +320,35 @@
             timeout: 2000
           });
           setTimeout(() => {
-            const printWindow = window.open('', 'Print Window', 'height=400,width=600');
-            // Write the print contents to the new window
-            printWindow.document.write(printContents);
-            const printWidth = 400; // Width of print window
-            const printHeight = 250.2; // Height of print window
-            const pdf = new jsPDF({
-              orientation: printWidth > printHeight ? "landscape" : "portrait",
-              unit: "px",
-              format: [printWidth, printHeight]
-            });
-            // Add the print contents to the PDF document
-            pdf.html(printContents, {
-              callback: function () {
-                // Print the PDF document
-                pdf.autoPrint();
-                // Save the PDF document to a file
-                pdf.save('member_card_'+item.nama_member+'.pdf');
-              }
-            });
-            // Wait for the window to load and then call the print method
-            printWindow.onload = function() {
-                printWindow.print();
-            };
+            // const printWindow = window.open('', 'Print Window', 'height=400,width=600');
+            // // Write the print contents to the new window
+            // printWindow.document.write(printContents);
+            // const printWidth = 400; // Width of print window
+            // const printHeight = 250.2; // Height of print window
+            // const pdf = new jsPDF({
+            //   orientation: printWidth > printHeight ? "landscape" : "portrait",
+            //   unit: "px",
+            //   format: [printWidth, printHeight]
+            // });
+            // // Add the print contents to the PDF document
+            // pdf.html(printContents, {
+            //   callback: function () {
+            //     // Print the PDF document
+            //     pdf.autoPrint();
+            //     // Save the PDF document to a file
+            //     pdf.save('member_card_'+item.nama_member+'.pdf');
+            //   }
+            // });
+            // // Wait for the window to load and then call the print method
+            // printWindow.onload = function() {
+            //     printWindow.print();
+            // };
+            const popup = window.open("", "_blank");
+            popup.document.write(printContents);
+            popup.document.close();
+            popup.focus();
+            popup.print();
+            popup.close();
           }, 2000);
         } else {
           // Member is not active, so display an error message
@@ -355,7 +361,7 @@
       },
       getTrainee() {
         axios
-          .get("http://192.168.1.2/Server_Go_Fit/public/member")
+          .get("http://192.168.1.5/Server_Go_Fit/public/member")
           .then((response) => {
             // this.todos = response.data.data;
             this.todos = response.data.data
@@ -377,7 +383,7 @@
             console.log("Password cannot be empty");
             return;
         }
-        axios.put(`http://192.168.1.2/Server_Go_Fit/public/member/${this.formTodo.id_member}`, {
+        axios.put(`http://192.168.1.5/Server_Go_Fit/public/member/${this.formTodo.id_member}`, {
             id_member:this.formTodo.id_member,
             nama_member: this.formTodo.nama_member,
             password: this.formTodo.password,
@@ -393,7 +399,7 @@
         .then(response => {
             console.log("Edit Member success");
             console.log('response password', this.formTodo.password);
-            console.log("Link", `http://192.168.1.2/Server_Go_Fit/public/member/${this.formTodo.id_member}`);
+            console.log("Link", `http://192.168.1.5/Server_Go_Fit/public/member/${this.formTodo.id_member}`);
             // router.push('/dashboardkasir')
             console.log(response.data);
             window.location.reload(); // Refresh the page
@@ -417,7 +423,7 @@
         // this.getTrainee();
       },
       deleteConfirmed() {
-        axios.delete('http://192.168.1.2/Server_Go_Fit/public/member/' + this.itemToDelete.id_member)
+        axios.delete('http://192.168.1.5/Server_Go_Fit/public/member/' + this.itemToDelete.id_member)
           .then(response => {
             console.log(response.data);
             this.getTrainee();
@@ -454,7 +460,7 @@
         formTodo.append('Expiration_Date', date);
         formTodo.append('status', 'active');
         // Send a POST request to the backend API
-        axios.post('http://192.168.1.2/Server_Go_Fit/public/member', formTodo)
+        axios.post('http://192.168.1.5/Server_Go_Fit/public/member', formTodo)
           .then(response => {
             // Handle successful response
             let toast = createToastInterface();
@@ -502,7 +508,7 @@
           } else {
             item.status = "active";
           }
-          axios.put(`http://192.168.1.2/Server_Go_Fit/public/member/${item.id_member}`, {
+          axios.put(`http://192.168.1.5/Server_Go_Fit/public/member/${item.id_member}`, {
             id_member: item.id_member,
             nama_member: item.nama_member,
             password: item.password,
@@ -535,7 +541,7 @@
       },
       resetItem(item){
         axios
-          .put(`http://192.168.1.2/Server_Go_Fit/public/member/${item.id_member}`, {
+          .put(`http://192.168.1.5/Server_Go_Fit/public/member/${item.id_member}`, {
               nama_member: item.nama_member,
               password: item.tanggal_lahir,
               umur: item.umur,
@@ -556,7 +562,7 @@
             }, 2000);
       },
       deleteItem(item) {
-        // axios.delete(`http://192.168.1.2/Server_Go_Fit/public/member/${item.id_member}`)
+        // axios.delete(`http://192.168.1.5/Server_Go_Fit/public/member/${item.id_member}`)
         // window.location.reload();
           this.itemToDelete = item;
           this.confirmDialog = true;

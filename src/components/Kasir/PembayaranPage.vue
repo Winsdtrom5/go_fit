@@ -29,8 +29,16 @@
             <input id="total-price" type="text" :value="defaultTotal" readonly/>
           </div>
           <div class="col">
-            <label for="paid-amount">Input Harga</label>
+            <label for="paid-amount">Input Bayar</label>
             <input id="paid-amount" type="number" v-model="inputTotalValue" :min="defaultTotal"/>
+          </div>
+          <div class="col">
+            <label for="paid-amount">Kembalian</label>
+            <input
+              class="customfield"
+              v-model="formAktivasi.kembalian"
+              readonly
+            />
           </div>
         </div>
         <button class="activate-button" @click="activateMember">Activate Membership</button>
@@ -96,7 +104,7 @@
 
 
 <script>
-import jsPDF from 'jspdf';
+// import jsPDF from 'jspdf';
 import axios from "axios";
 import { createToastInterface } from "vue-toastification";
 export default {
@@ -147,9 +155,11 @@ export default {
       },
       formAktivasi: {
         nama_member:null,
-        nama: null  
+        nama: null,
+        kembalian:0,
       },
       formPegawai: {
+        id_pegawai:null,
         nama_pegawai:null,
         password:null,
         email:null,
@@ -169,6 +179,7 @@ export default {
       inputTotal: 0,
       remainingTotalValue: 0,
       namapegawai:null,
+      idpegawai:null
     };
   },
   computed: {
@@ -224,7 +235,7 @@ export default {
     },
     loadKelasOptions() {
   // fetch data from kelas database
-      axios.get('http://192.168.1.2/Server_Go_Fit/public/kelas')
+      axios.get('http://192.168.1.5/Server_Go_Fit/public/kelas')
         .then(response => {
           // map response data to an array of options
           this.kelasOptions = response.data.data.map((kelas) => {
@@ -243,7 +254,7 @@ export default {
     },
     loadMemberOptions() {
       // fetch data from kelas database
-      axios.get('http://192.168.1.2/Server_Go_Fit/public/member')
+      axios.get('http://192.168.1.5/Server_Go_Fit/public/member')
         .then(response => {
           // map response data to an array of options
           this.members = response.data.data.map((member) => {
@@ -268,7 +279,7 @@ export default {
         });
     },
     getMemberData(memberName) {
-      axios.get('http://192.168.1.2/Server_Go_Fit/public/member')
+      axios.get('http://192.168.1.5/Server_Go_Fit/public/member')
         .then(response => {
           // filter the response data to find the member with matching nama_member
           const matchingMember = response.data.data.filter((member) => member.nama_member === memberName)[0];
@@ -313,39 +324,41 @@ export default {
           let nextYear = new Date();
           nextYear.setFullYear(today.getFullYear() + 1);
           let date = new Date(nextYear.getTime() - (today.getTimezoneOffset() * 60000)).toISOString().slice(0,10); // format as yyyy-mm-dd
-          // axios.put('http://192.168.1.2/Server_Go_Fit/public/member/' + this.formMember.id_member, {
-          //   Expiration_Date: date,
-          //   status: 'active',
-          // })
-          // .then(response => {
-          //   this.isActivated = true;
-          //   this.errorMessage = "";
-          //   console.log(response);
-          // })
-          // .catch(error => {
-          //   console.error(error);
-          //   this.isActivated = false;
-          //   this.errorMessage = "Failed to activate membership. Please try again.";
-          //   return
-          // });
+          axios.put('http://192.168.1.5/Server_Go_Fit/public/member/' + this.formMember.id_member, {
+            Expiration_Date: date,
+            status: 'active',
+          })
+          .then(response => {
+            this.isActivated = true;
+            this.errorMessage = "";
+            console.log(response);
+          })
+          .catch(error => {
+            console.error(error);
+            this.isActivated = false;
+            this.errorMessage = "Failed to activate membership. Please try again.";
+            return
+          });
           let formAktivasi = new FormData();
           formAktivasi.append('nama_member', this.formTodo.nama_member);
           formAktivasi.append('nama', this.username);
           formAktivasi.append('tanggal', today.toISOString().slice(0,10));
           formAktivasi.append('harga', 3000000);
-          axios.post('http://192.168.1.2/Server_Go_Fit/public/aktivasi', formAktivasi)
+          console.log(formAktivasi)
+          axios.post('http://192.168.1.5/Server_Go_Fit/public/aktivasi', formAktivasi)
           .then(response => {
             console.log(this.formMember.date_daftar);
             let dateDaftar = new Date(this.formMember.date_daftar);
             let year = dateDaftar.getFullYear().toString().slice(-2);
             let month = (dateDaftar.getMonth() + 1).toString().padStart(2, '0');
             let nomorMember = year + '.' + month + '.' + this.formMember.id_member;
-            axios.get('http://192.168.1.2/Server_Go_Fit/public/pegawai/' + this.username, {})
+            axios.get('http://192.168.1.5/Server_Go_Fit/public/pegawai/' + this.username, {})
             .then((response) => {
                 if (response && response.data && response.data.data) {
                   let data = response.data.data;
+                  this.idpegawai = data[0].id_pegawai;
                   this.namapegawai = data[0].nama_pegawai;
-                  axios.get('http://192.168.1.2/Server_Go_Fit/public/aktivasi')
+                  axios.get('http://192.168.1.5/Server_Go_Fit/public/aktivasi')
                     .then(response => {
                       let data = response.data.data;
                       let latestID = 0;
@@ -358,64 +371,85 @@ export default {
                       const now = new Date();
                       const year = now.getFullYear().toString().substr(-2);
                       const month = ('0' + (now.getMonth() + 1)).slice(-2);
+                      const day = ('0' + now.getDate()).slice(-2);
+                      const hours = ('0' + now.getHours()).slice(-2);
+                      const minutes = ('0' + now.getMinutes()).slice(-2);
+                      const currentDate = `${day}/${month}/${year}`;
+                      const currentTime = `${hours}:${minutes}`;
                       const noStruk = `${year}.${month}.${latestID}`;
                       const printContents = `
-                          <div style="width: 400px; height: 250px; padding: 20px; border: 2px solid #4CAF50; border-radius: 10px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);">
-                            <div style="display: flex; font-weight: bold; font-size: 24px; margin-bottom: 15px; color: #4CAF50;">
-                              Go-Fit
-                            </div>
-                            <div style="text-align: center; font-weight: bold; font-size: 24px; margin-bottom: 20px;">Member Card</div>
+                          <div style="width: 700px; height: 250px; padding: 20px; border: 2px solid #4CAF50; border-radius: 10px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);">
                             <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                              <div style="font-weight: bold; color: #4CAF50;">No Struk:</div>
-                              <div>${noStruk}</div>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                              <div style="font-weight: bold; color: #4CAF50;">Nomor Member:</div>
-                              <div>${nomorMember}/${this.formMember.nama_member}</div>
+                              <div style="display: flex; align-items: center;">
+                                <div style="font-weight: bold; ">Go-Fit</div>
+                              </div>
+                              <div style="display: flex; align-items: center;">
+                                <div style="font-weight: bold; ">No Struk:</div>
+                                <div>${noStruk}</div>
+                              </div>
                             </div>
                             <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                              <div style="font-weight: bold; color: #4CAF50;">Aktivasi Tahunan:</div>
-                              <div>Rp.3.000.000</div>
+                              <div style="display: flex; align-items: center;">
+                                <div style="font-weight: bold;">Jl. Centralpark No. 10 Yogyakarta</div>
+                              </div>
+                              <div style="display: flex; align-items: center;">
+                                <div style="font-weight: bold;">No Struk:</div>
+                                <div>${currentDate} ${currentTime}</div>
+                              </div>
+                            </div>
+                            <br>
+                            <br>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                              <div style="font-weight;">Nomor Member: ${nomorMember}/${this.formMember.nama_member}</div>
                             </div>
                             <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                              <div style="font-weight: bold; color: #4CAF50;">Masa Aktif:</div>
-                              <div>${date}</div>
+                              <div style="font-weight;">Aktivasi Tahunan: Rp.3.000.000</div>
                             </div>
-                            <div style="display: flex; justify-content: space-between;">
-                              <div style="font-weight: bold; color: #4CAF50;">Kasir:</div>
-                              <div style="font-size: 16px;">${this.namapegawai}</div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                              <div style="font-weight; ">Masa Aktif Member: ${date}</div>
+                            </div>
+                            <br>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                              <div style="font-weight: bold; color: #4CAF50;"></div>
+                                <div style="font-size: 16px; text-align: right;">Kasir: P${this.idpegawai} / ${this.namapegawai}</div>
                             </div>
                         </div>
                         `;
                         // Create a new window to print the member card
                         let toast = createToastInterface();
-                        toast.success("Generating MemberCard", {
+                        toast.success("Generating Struk Aktivasi", {
                           timeout: 2000
                         });
                         setTimeout(() => {
-                          const printWindow = window.open('', 'Print Window', 'height=400,width=600');
-                          // Write the print contents to the new window
-                          printWindow.document.write(printContents);
-                          const printWidth = 400; // Width of print window
-                          const printHeight = 250.2; // Height of print window
-                          const pdf = new jsPDF({
-                            orientation: printWidth > printHeight ? "landscape" : "portrait",
-                            unit: "px",
-                            format: [printWidth, printHeight]
-                          });
-                          // Add the print contents to the PDF document
-                          pdf.html(printContents, {
-                            callback: function () {
-                              // Print the PDF document
-                              pdf.autoPrint();
-                              // Save the PDF document to a file
-                              pdf.save('member_card_'+this.formMember.nama_member+'.pdf');
-                            }
-                          });
-                          // Wait for the window to load and then call the print method
-                          printWindow.onload = function() {
-                              printWindow.print();
-                          };
+                          // const printWindow = window.open('', 'Print Window', 'height=400,width=600');
+                          // // Write the print contents to the new window
+                          // printWindow.document.write(printContents);
+                          // const printWidth = 400; // Width of print window
+                          // const printHeight = 600; // Height of print window
+                          // const pdf = new jsPDF({
+                          //   orientation: printWidth > printHeight ? "landscape" : "portrait",
+                          //   unit: "px",
+                          //   format: [printWidth, printHeight]
+                          // });
+                          // // Add the print contents to the PDF document
+                          // pdf.html(printContents, {
+                          //   callback: function () {
+                          //     // Print the PDF document
+                          //     pdf.autoPrint();
+                          //     // Save the PDF document to a file
+                          //     pdf.save('struk.pdf');
+                          //   }
+                          // });
+                          // // Wait for the window to load and then call the print method
+                          // printWindow.onload = function() {
+                          //     printWindow.print();
+                          // };
+                          const popup = window.open("", "_blank");
+                          popup.document.write(printContents);
+                          popup.document.close();
+                          popup.focus();
+                          popup.print();
+                          popup.close();
                         }, 2000);
                     })
                     .catch(error => {
@@ -481,6 +515,10 @@ export default {
         }
       }
       this.updateTotalHarga(newVal, this.formTodo.nama_kelas);
+    },
+   inputTotalValue: function(newVal) {
+      console.log("jumlah_deposit changed: ", newVal);
+      this.formAktivasi.kembalian = newVal -this.defaultTotal;
     },
   },
 };
