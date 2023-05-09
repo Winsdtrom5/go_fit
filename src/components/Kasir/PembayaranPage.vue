@@ -881,7 +881,184 @@ export default {
 
                 // Do something with the error, e.g. show error message
               });
-          });
+          })
+          .catch((error) => {
+                // Handle error response
+                console.error(error);
+                formdeposituang.append(
+                  "nama_member",
+                  this.formTodo.nama_member
+                );
+                formdeposituang.append("email", this.username);
+                formdeposituang.append(
+                  "tanggal",
+                  now.toISOString().slice(0, 10)
+                );
+                formdeposituang.append("harga", this.formdeposituang.total);
+                console.log(this.formdeposituang.total);
+                formdeposituang.append(
+                  "jumlah_deposit",
+                  this.formTodo.inputDeposit
+                );
+                axios
+                  .post(
+                    "http://192.168.1.2/Server_Go_Fit/public/deposituang",
+                    formdeposituang
+                  )
+                  .then((response) => {
+                    // Handle successful response
+                    console.log(response.data);
+                    axios
+                      .get(
+                        "http://192.168.1.2/Server_Go_Fit/public/pegawai/" +
+                          this.username,
+                        {}
+                      )
+                      .then((response) => {
+                        if (response && response.data && response.data.data) {
+                          let data = response.data.data;
+                          this.idpegawai = data[0].id_pegawai;
+                          this.namapegawai = data[0].nama_pegawai;
+                          axios
+                            .get(
+                              "http://192.168.1.2/Server_Go_Fit/public/deposituang"
+                            )
+                            .then((response) => {
+                              let data = response.data.data;
+                              let latestID = 0;
+                              data.forEach((item) => {
+                                const itemID = parseInt(item.id);
+                                if (itemID > latestID) {
+                                  latestID = itemID;
+                                }
+                              });
+                              const now = new Date();
+                              const year = now
+                                .getFullYear()
+                                .toString()
+                                .substr(-2);
+                              const month = ("0" + (now.getMonth() + 1)).slice(
+                                -2
+                              );
+                              const day = ("0" + now.getDate()).slice(-2);
+                              const hours = ("0" + now.getHours()).slice(-2);
+                              const minutes = ("0" + now.getMinutes()).slice(
+                                -2
+                              );
+                              const currentDate = `${day}/${month}/${year}`;
+                              const currentTime = `${hours}:${minutes}`;
+                              const noStruk = `${year}.${month}.${latestID}`;
+                              let dateDaftar = new Date(
+                                this.formMember.date_daftar
+                              );
+                              let year2 = dateDaftar
+                                .getFullYear()
+                                .toString()
+                                .slice(-2);
+                              let month2 = (dateDaftar.getMonth() + 1)
+                                .toString()
+                                .padStart(2, "0");
+                              let nomorMember =
+                                year2 +
+                                "." +
+                                month2 +
+                                "." +
+                                this.formMember.id_member;
+                              let sisa =
+                                this.formdeposituang.jumlah_deposit.toLocaleString(
+                                  "id-ID",
+                                  { style: "currency", currency: "IDR" }
+                                );
+                              let bonus = Number(
+                                this.formpromoreguler.bonus
+                              ).toLocaleString("id-ID", {
+                                style: "currency",
+                                currency: "IDR",
+                              });
+
+                              let jumlahdeposit = Number(
+                                this.formTodo.inputDeposit
+                              ).toLocaleString("id-ID", {
+                                style: "currency",
+                                currency: "IDR",
+                              });
+                              axios
+                                .get(
+                                  `http://192.168.1.2/Server_Go_Fit/public/deposituang/${this.formTodo.nama_member}`
+                                )
+                                .then((response) => {
+                                  let data = response.data.data;
+                                  let totalDeposit = data.total_deposit;
+                                  let total = totalDeposit.toLocaleString(
+                                    "id-ID",
+                                    { style: "currency", currency: "IDR" }
+                                  );
+                                  console.log(total);
+                                  const printContents = `
+                                <div style="width: 700px; height: 300px; padding: 20px; border: 2px solid #4CAF50; border-radius: 10px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);">
+                                      <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                        <div style="display: flex; align-items: center;">
+                                          <div style="font-weight: bold; ">Go-Fit</div>
+                                        </div>
+                                        <div style="display: flex; align-items: center;">
+                                          <div style="font-weight: bold; ">No Struk:</div>
+                                          <div>${noStruk}</div>
+                                        </div>
+                                      </div>
+                                      <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                        <div style="display: flex; align-items: center;">
+                                          <div style="font-weight: bold;">Jl. Centralpark No. 10 Yogyakarta</div>
+                                        </div>
+                                        <div style="display: flex; align-items: center;">
+                                          <div style="font-weight: bold;">Tanggal:</div>
+                                          <div>${currentDate} ${currentTime}</div>
+                                        </div>
+                                      </div>
+                                      <br>
+                                      <br>
+                                      <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                        <div style="font-weight;">Member: ${nomorMember}/${this.formMember.nama_member}</div>
+                                      </div>
+                                      <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                        <div style="font-weight;">Deposit: ${jumlahdeposit},- </div>
+                                      </div>
+                                      <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                        <div style="font-weight; ">Bonus Deposit: ${bonus}</div>
+                                      </div>
+                                      <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                        <div style="font-weight; ">Sisa Deposit: ${sisa}</div>
+                                      </div>
+                                      <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                        <div style="font-weight; ">Total Deposit: ${total}</div>
+                                      </div>
+                                      <br>
+                                      <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                        <div style="font-weight: bold; color: #4CAF50;"></div>
+                                          <div style="font-size: 16px; text-align: right;">Kasir: P${this.idpegawai} / ${this.namapegawai}</div>
+                                      </div>
+                                  </div>
+                                `;
+                                  let toast = createToastInterface();
+                                  toast.success("Deposit Kelas Sukses", {
+                                    timeout: 2000,
+                                  });
+                                  setTimeout(() => {
+                                    const popup = window.open("", "_blank");
+                                    popup.document.write(printContents);
+                                    popup.document.close();
+                                    popup.focus();
+                                    popup.print();
+                                    popup.close();
+                                  }, 2000);
+                                });
+                            });
+                          // Do something with the response data, e.g. show success message
+                        }
+                      });
+                  });
+
+                // Do something with the error, e.g. show error message
+              });
       }
     },
     depositkelas() {

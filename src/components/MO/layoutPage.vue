@@ -35,7 +35,7 @@
 </template>
 
 <script>
-
+import axios from "axios";
 export default {
   name: "layoutPage",
   data() {
@@ -43,6 +43,7 @@ export default {
       drawer: false,
       group: null,
       username: null,
+      email:null,
     };
   },
   computed: {
@@ -50,7 +51,7 @@ export default {
         return [
           { 
             title: "Dashboard", 
-            to: `/dashboardMO?username=${this.username}`, 
+            to: `/dashboardMO?username=${this.email}`, 
             disabled: false
           },
           { 
@@ -89,12 +90,22 @@ export default {
   mounted() {
     // Get username from the URL
     const username = this.$route.query.username;
-    this.username = username;
+    this.email = username;
+    this.getusername(username);
   },
   methods: {
     keluar(){
       localStorage.clear();
       this.$router.push( {name : 'login'})
+    },
+    getusername(username){
+      console.log(username)
+      axios.get("http://192.168.1.2/Server_Go_Fit/public/pegawai/" +username,{}                      )
+      .then((response) => {
+        let data = response.data.data;
+        this.username = data[0].nama_pegawai;
+        console.log(this.username)
+      })
     }
   },
 };
