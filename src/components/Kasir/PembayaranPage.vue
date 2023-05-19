@@ -1284,10 +1284,7 @@ export default {
             console.error(error);
             formdepositKelas.append("nama_member", this.formTodo.nama_member);
             formdepositKelas.append("email", this.username);
-            formdepositKelas.append(
-              "tanggal",
-              today.toISOString().slice(0, 10)
-            );
+            formdepositKelas.append("tanggal",today.toISOString().slice(0, 10));
             formdepositKelas.append("harga", this.formdepositKelas.total_harga);
             formdepositKelas.append("nama_kelas", this.formTodo.nama_kelas);
             formdepositKelas.append("jumlah_deposit", this.jumlah_deposit);
