@@ -8,7 +8,7 @@
               alt="ambasing"
           /></v-list-item-avatar>
           <v-list-item-content>
-            <v-list-item-title class="headline">Data Promo</v-list-item-title>
+            <v-list-item-title class="headline">Data Presensi GYM</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-card-title>
@@ -62,20 +62,6 @@
                 label="Umur Pegawai"
                 required
               ></v-text-field>
-              <!-- <v-menu v-model="form.tanggal_masuk" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">                            
-                <template v-slot:activator="{ on, attrs }">                                                                
-                  <v-text-field outlined color="black" class="textfield mt-3" v-model="form.tanggal_masuk" label="Tanggal Check-in"
-                    readonly v-bind="attrs" v-on="on"></v-text-field>
-                  </template>                         
-                <v-date-picker v-model="tanggal_masuk"></v-date-picker>                  
-              </v-menu>
-              <v-menu v-model="form.tanggal_keluar" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">                            
-                <template v-slot:activator="{ on, attrs }">                                                                
-                  <v-text-field outlined color="black" class="textfield mt-3" v-model="form.tanggal_keluar" label="Tanggal Check-out"
-                    readonly v-bind="attrs" v-on="on"></v-text-field>
-                  </template>                         
-                <v-date-picker v-model="form.tanggal_keluar"></v-date-picker>                  
-              </v-menu> -->
               <v-text-field
                 v-model="formTodo.no_telp"
                 label="Nomor Telepon"
@@ -91,8 +77,7 @@
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn color="blue darken-1" text @click="cancelUpdate">
-              Cancel</v-btn
-            >
+              Cancel</v-btn>
             <v-btn color="blue darken-1" text @click="update"> Save</v-btn>
           </v-card-actions>
         </v-card>
@@ -130,20 +115,6 @@
                 label="Umur Pegawai"
                 required
               ></v-text-field>
-              <!-- <v-menu v-model="form.tanggal_masuk" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">                            
-                <template v-slot:activator="{ on, attrs }">                                                                
-                  <v-text-field outlined color="black" class="textfield mt-3" v-model="form.tanggal_masuk" label="Tanggal Check-in"
-                    readonly v-bind="attrs" v-on="on"></v-text-field>
-                  </template>                         
-                <v-date-picker v-model="tanggal_masuk"></v-date-picker>                  
-              </v-menu>
-              <v-menu v-model="form.tanggal_keluar" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">                            
-                <template v-slot:activator="{ on, attrs }">                                                                
-                  <v-text-field outlined color="black" class="textfield mt-3" v-model="form.tanggal_keluar" label="Tanggal Check-out"
-                    readonly v-bind="attrs" v-on="on"></v-text-field>
-                  </template>                         
-                <v-date-picker v-model="form.tanggal_keluar"></v-date-picker>                  
-              </v-menu> -->
               <v-text-field
                 v-model="formTodo.no_telp"
                 label="no_telp"
@@ -181,8 +152,6 @@
         headers: [
           { text: "Nama Pegawai", value: "nama_pegawai" },
           { text: "Umur", value: "umur" },
-          // { text: "Tanggal Check-in", value: "tanggal_masuk" },
-          // { text: "Tanggal Check-out", value: "tanggal_keluar" },
           { text: "Nomor Telepon", value: "no_telp" },
           { text: "Jabatan", value: "jabatan" },
           { text: "Actions", value: "actions" },
@@ -194,11 +163,6 @@
           umur: null,
           no_telp:null,
           jabatan: null,
-          // tanggal_keluar: null,
-          // no_telp: null,
-          // jabatan: null,
-          // delete: null,
-          // edit: null,
         },
       };
     },
@@ -208,10 +172,10 @@
     methods: {
       getTrainee() {
         axios
-          .get("http://192.168.1.5/Server_Go_Fit/public/pegawai")
+          .get("http://192.168.1.6/Server_Go_Fit/public/bookinggym")
           .then((response) => {
             // this.todos = response.data.data;
-            this.todos = response.data.data.filter(item => item.jabatan !== "Admin");
+            this.todos = response.data.data;
             console.log('response', this.todos);
           })
           .catch((error) => {
@@ -274,28 +238,6 @@
                 console.log("Added Reservation success");
                 router.push('/dashboardadmin')
         })
-        // .catch(error => {
-        //     assign state validation with error
-        //     console.log("validasii")
-        //     validation.value = error.response.data
-        //     console.log(validation.value)
-        //     errors.nameErrors = ''
-        //     errors.emailErrors = ''
-        //     errors.passwordErrors = ''
-        //     if (typeof (validation.value.errors.name) !== 'undefined') {
-        //         console.log("salah nama")
-        //         errors.nameErrors = validation.value.errors.name[0];
-        //     }
-        //     if (typeof (validation.value.errors.email) !== 'undefined') {
-        //         console.log("salah email")
-        //         errors.emailErrors = validation.value.errors.email[0]
-        //      }
-        //     if (typeof (validation.value.errors.password) !== 'undefined') {
-        //         console.log("salah password")
-        //         errors.passwordErrors = validation.value.errors.password[0]
-        //     }
-
-        // })
         this.confirmEdit = false;
       },
 

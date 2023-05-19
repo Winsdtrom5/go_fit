@@ -64,7 +64,7 @@ export const router = new VueRouter({
         {
           path: "/presensi",
           name: "Presensi Member",
-          component: importComponent("Kasir/PresesnsiPage"),
+          component: importComponent("Kasir/PresensiPage"),
         },
         {
           path: "/pembayaran",
@@ -90,6 +90,11 @@ export const router = new VueRouter({
           path: "/kelas",
           name: "Kelas",
           component: importComponent("MO/kelasPage"),
+        },
+        {
+          path: "/izin",
+          name: "izin",
+          component: importComponent("MO/izininstrukturPage"),
         },
         {
           path: "/jadwalumum",

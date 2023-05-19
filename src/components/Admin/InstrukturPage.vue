@@ -21,7 +21,8 @@
             style="margin-top: 30px"
           ></v-text-field>
           <v-spacer></v-spacer>
-          <v-btn color="brown" dark @click="dialog = true"> Tambah Instruktur </v-btn>
+          <v-btn color="brown" dark @click="dialog = true" class="mr-3">Tambah Instruktur</v-btn>
+          <v-btn color="brown" dark @click="resetItem(item)" class="ml-3">Reset Keterlambatan</v-btn>
         </v-card-title>
       </v-card>
   
@@ -86,16 +87,15 @@
       </v-dialog>
 
         
-      <v-dialog v-model="confirmDelete" persistent max-width="500px">
-        <v-card class="accordion arrows">
-          <br />
-          <v-card-text style="color: black">
-            <h1>Are you sure to delete?</h1>
-          </v-card-text>
+      <v-dialog v-model="confirmDialog" max-width="500">
+        <v-card>
+          <v-card-title class="headline">
+              Are you sure you want to Reset Keterlambatan This Month ?
+          </v-card-title>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="green" text @click="hapus()"> YES </v-btn>
-            <v-btn color="red" text @click="cancelDelete()"> NO </v-btn>
+            <v-btn color="red darken-1" text @click="confirmDialog = false">No</v-btn>
+            <v-btn color="green darken-1" text @click="editConfirmed">Yes</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -150,12 +150,12 @@
         dialog: false,
         confirmEdit: false,
         itemToDelete: null,
-        confirmDialog: false,
         confirmDelete: false,
         headers: [
           { text: "Nama Instruktur", value: "nama" },
           { text: "Umur", value: "umur" },
           { text: "Nomor Telepon", value: "no_telp" },
+          { text: "Total Keterlambatan", value: "keterlambatan" },
           { text: "Actions", value: "actions" },
         ],
         todos: [],
@@ -165,7 +165,10 @@
           nama: null,
           umur: null,
           no_telp:null,
+          keterlambatan:null,
         },
+        itemToEdit: null,
+        confirmDialog: false,
       };
     },
     mounted() {
@@ -228,7 +231,7 @@
       },
       getTrainee() {
         axios
-          .get("http:///Server_Go_Fit/public/instruktur")
+          .get("http://10.53.6.143/Server_Go_Fit/public/instruktur")
           .then((response) => {
             // this.todos = response.data.data;
             this.todos = response.data.data;
@@ -255,7 +258,7 @@
         formTodo.append('password', this.formTodo.password);
         formTodo.append('umur', this.formTodo.umur);
         formTodo.append('no_telp', this.formTodo.no_telp);
-        axios.post('http:///Server_Go_Fit/public/instruktur', formTodo)
+        axios.post('http://10.53.6.143/Server_Go_Fit/public/instruktur', formTodo)
           .then(response => {
             // Handle successful response
             console.log(response.data);
@@ -283,9 +286,31 @@
         this.formTodo.no_telp = item.no_telp;
         this.confirmEdit = true;
       },
-
+      resetItem(item){
+        this.itemToEdit = item;
+        this.confirmDialog = true;
+      },
+      editConfirmed() {
+        axios.put('http://10.53.6.143/Server_Go_Fit/public/instruktur/reset')
+          .then(response => {
+            console.log(response.data);
+            console.log('http://10.53.6.143/Server_Go_Fit/public/instruktur/reset')
+            let toast = createToastInterface();
+            toast.success("Reset Keterlambatan successful", {
+              timeout: 2000
+            });
+            setTimeout(() => {
+              this.getTrainee();
+            }, 2000);
+            // window.location.reload();
+          })
+          .catch(error => {
+            console.error(error);
+          });
+        this.confirmDialog = false;
+      },
       update() {
-        axios.put(`http:///Server_Go_Fit/public/instruktur/${this.formTodo.id_instruktur}`, {
+        axios.put(`http://10.53.6.143/Server_Go_Fit/public/instruktur/${this.formTodo.id_instruktur}`, {
             id_instruktur:this.formTodo.id_instruktur,
             nama_instruktur: this.formTodo.nama,
             password: this.formTodo.password,
@@ -295,7 +320,7 @@
         .then(response => {
             console.log("Edit instruktur success");
             console.log('response password', this.formTodo.password);
-            console.log("Link", `http:///Server_Go_Fit/public/instruktur/${this.formTodo.id_instruktur}`);
+            console.log("Link", `http://10.53.6.143/Server_Go_Fit/public/instruktur/${this.formTodo.id_instruktur}`);
             // router.push('/dashboardkasir')
             console.log(response.data);
             window.location.reload(); // Refresh the page
@@ -331,7 +356,7 @@
         this.confirmDelete = false;
       },
       deleteItem(item) {
-        axios.delete(`http:///Server_Go_Fit/public/instruktur/${item.id_instruktur}`)
+        axios.delete(`http://10.53.6.143/Server_Go_Fit/public/instruktur/${item.id_instruktur}`)
         console.log(item.id_instruktur)
         window.location.reload();
       },

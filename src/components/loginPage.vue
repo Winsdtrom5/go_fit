@@ -71,7 +71,7 @@ export default {
             console.log(form)
             let username = form.username
             let password = form.password
-            axios.get('http://192.168.1.2/Server_Go_Fit/public/pegawai/' + username + "/" + password, {})
+            axios.get('http://10.53.1.36/Server_Go_Fit/public/pegawai/' + username + "/" + password, {})
             .then((response) => {
                 if (response && response.data && response.data.data) {
                     let data = response.data.data; // Access 'data' field in response

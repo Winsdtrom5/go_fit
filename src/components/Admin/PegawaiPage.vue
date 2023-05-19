@@ -62,20 +62,6 @@
                 label="Umur Pegawai"
                 required
               ></v-text-field>
-              <!-- <v-menu v-model="form.tanggal_masuk" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">                            
-                <template v-slot:activator="{ on, attrs }">                                                                
-                  <v-text-field outlined color="black" class="textfield mt-3" v-model="form.tanggal_masuk" label="Tanggal Check-in"
-                    readonly v-bind="attrs" v-on="on"></v-text-field>
-                  </template>                         
-                <v-date-picker v-model="tanggal_masuk"></v-date-picker>                  
-              </v-menu>
-              <v-menu v-model="form.tanggal_keluar" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">                            
-                <template v-slot:activator="{ on, attrs }">                                                                
-                  <v-text-field outlined color="black" class="textfield mt-3" v-model="form.tanggal_keluar" label="Tanggal Check-out"
-                    readonly v-bind="attrs" v-on="on"></v-text-field>
-                  </template>                         
-                <v-date-picker v-model="form.tanggal_keluar"></v-date-picker>                  
-              </v-menu> -->
               <v-text-field
                 v-model="formTodo.no_telp"
                 label="Nomor Telepon"
@@ -305,36 +291,12 @@
         axios.put('http://192.168.1.5/Server_Go_Fit/public/pegawai/', {
           nama_pegawai: this.edit.nama_pegawai,
           umur: this.edit.umur,
-          // tanggal_masuk: this.edit.tanggal_masuk,
-          // tanggal_keluar: this.edit.tanggal_keluar,
           no_telp: this.edit.no_telp,
           jabatan: this.edit.jabatan
         }).then(() => {
                 console.log("Edit Reservation success");
                 router.push('/dashboardadmin')
         })
-        // .catch(error => {
-        //     assign state validation with error
-        //     console.log("validasii")
-        //     validation.value = error.response.data
-        //     console.log(validation.value)
-        //     errors.nameErrors = ''
-        //     errors.emailErrors = ''
-        //     errors.passwordErrors = ''
-        //     if (typeof (validation.value.errors.name) !== 'undefined') {
-        //         console.log("salah nama")
-        //         errors.nameErrors = validation.value.errors.name[0];
-        //     }
-        //     if (typeof (validation.value.errors.email) !== 'undefined') {
-        //         console.log("salah email")
-        //         errors.emailErrors = validation.value.errors.email[0]
-        //      }
-        //     if (typeof (validation.value.errors.password) !== 'undefined') {
-        //         console.log("salah password")
-        //         errors.passwordErrors = validation.value.errors.password[0]
-        //     }
-
-        // })
         this.confirmEdit = false;
       },
 
