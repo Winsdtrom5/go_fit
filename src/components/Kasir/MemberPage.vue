@@ -349,7 +349,7 @@
               popup.document.close();
               popup.focus();
               popup.print();
-              popup.close();
+              // popup.close();
             } else {
               console.error("Failed to open a new window.");
             }

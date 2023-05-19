@@ -107,6 +107,7 @@
 <script>
 import axios from "axios";
 import { createToastInterface } from "vue-toastification";
+// import jsPDF from "jspdf";
 export default {
   name: "PegawaiPage",
   data() {
@@ -257,16 +258,24 @@ export default {
                 const jam_keluar = item.jam_keluar.split(":")[0];
                 const slotwaktu = `${jam_mulai}-${jam_keluar}`;
                 const printContents = `
-                    GoFit
-                    Jl. Centralpark No. 10 Yogyakarta
+                <div style="border: 1px solid black; padding: 10px;">
+                  <div>
+                    <h2>GoFit</h2>
+                    <p>Jl. Centralpark No. 10 Yogyakarta</p>
+                  </div>
+                  
+                  <div style="margin-top: 20px;">
+                    <h3>STRUK PRESENSI GYM</h3>
+                    <p>No Struk  : ${noStruk}</p>
+                    <p>Tanggal   : ${currentDate} ${currentTime}</p>
+                  </div>
 
-                    STRUK PRESENSI GYM
-                    No Struk  : ${noStruk}
-                    Tanggal   : ${currentDate} ${currentTime}
-
-                    Member    : ${nomorMember} / ${item.nama_member}
-                    Slot Waktu : ${slotwaktu}
-                    `;
+                  <div style="margin-top: 20px;">
+                    <p>Member    : ${nomorMember} / ${item.nama_member}</p>
+                    <p>Slot Waktu : ${slotwaktu}</p>
+                  </div>
+                </div>
+                `;
                 let toast = createToastInterface();
                 toast.success("Deposit Kelas Sukses", {
                   timeout: 2000,
@@ -277,7 +286,7 @@ export default {
                   popup.document.close();
                   popup.focus();
                   popup.print();
-                  popup.close();
+                  // popup.close();
                 }, 2000);
               });
             });
