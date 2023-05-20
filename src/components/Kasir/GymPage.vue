@@ -9,9 +9,7 @@
           />
         </v-list-item-avatar>
         <v-list-item-content>
-          <v-list-item-title class="headline"
-            >Data GYM</v-list-item-title
-          >
+          <v-list-item-title class="headline">Data GYM</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
       <v-card-title>
@@ -244,20 +242,21 @@ export default {
                 if (itemID > latestID) {
                   latestID = itemID;
                 }
-                const now = new Date();
-                const year = now.getFullYear().toString().substr(-2);
-                const month = ("0" + (now.getMonth() + 1)).slice(-2);
-                const day = ("0" + now.getDate()).slice(-2);
-                const hours = ("0" + now.getHours()).slice(-2);
-                const minutes = ("0" + now.getMinutes()).slice(-2);
-                const fullYear = now.getFullYear().toString();
-                const currentDate = `${day}/${month}/${fullYear}`;
-                const currentTime = `${hours}:${minutes}`;
-                const noStruk = `${year}.${month}.${latestID}`;
-                const jam_mulai = item.jam_masuk.split(":")[0];
-                const jam_keluar = item.jam_keluar.split(":")[0];
-                const slotwaktu = `${jam_mulai}-${jam_keluar}`;
-                const printContents = `
+              });
+              const now = new Date();
+              const year = now.getFullYear().toString().substr(-2);
+              const month = ("0" + (now.getMonth() + 1)).slice(-2);
+              const day = ("0" + now.getDate()).slice(-2);
+              const hours = ("0" + now.getHours()).slice(-2);
+              const minutes = ("0" + now.getMinutes()).slice(-2);
+              const fullYear = now.getFullYear().toString();
+              const currentDate = `${day}/${month}/${fullYear}`;
+              const currentTime = `${hours}:${minutes}`;
+              const noStruk = `${year}.${month}.${latestID}`;
+              const jam_mulai = item.jam_masuk.split(":")[0];
+              const jam_keluar = item.jam_keluar.split(":")[0];
+              const slotwaktu = `${jam_mulai}-${jam_keluar}`;
+              const printContents = `
                 <div style="border: 1px solid black; padding: 10px;">
                   <div>
                     <h2>GoFit</h2>
@@ -276,19 +275,18 @@ export default {
                   </div>
                 </div>
                 `;
-                let toast = createToastInterface();
-                toast.success("Deposit Kelas Sukses", {
-                  timeout: 2000,
-                });
-                setTimeout(() => {
-                  const popup = window.open("", "_blank");
-                  popup.document.write(printContents);
-                  popup.document.close();
-                  popup.focus();
-                  popup.print();
-                  // popup.close();
-                }, 2000);
+              let toast = createToastInterface();
+              toast.success("Deposit Kelas Sukses", {
+                timeout: 2000,
               });
+              setTimeout(() => {
+                const popup = window.open("", "_blank");
+                popup.document.write(printContents);
+                popup.document.close();
+                popup.focus();
+                popup.print();
+                // popup.close();
+              }, 2000);
             });
         });
     },
