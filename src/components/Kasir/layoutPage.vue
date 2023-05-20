@@ -54,7 +54,7 @@ export default {
           to: `/dashboardkasir?username=${this.email || ''}` 
         },
         { title: "Member", to: "/member" },
-        { title: "Presensi", to: "/presensi" },  
+        { title: "Gym", to: "/gym" },  
         { 
           title: "Pembayaran", 
           to: `/pembayaran?username=${this.email || ''}` 

@@ -10,7 +10,7 @@
         </v-list-item-avatar>
         <v-list-item-content>
           <v-list-item-title class="headline"
-            >Data Instruktur</v-list-item-title
+            >Data GYM</v-list-item-title
           >
         </v-list-item-content>
       </v-list-item>

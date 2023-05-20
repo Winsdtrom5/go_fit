@@ -62,9 +62,14 @@ export const router = new VueRouter({
           component: importComponent("Kasir/MemberPage"),
         },
         {
-          path: "/presensi",
-          name: "Presensi Member",
-          component: importComponent("Kasir/PresensiPage"),
+          path: "/presensigym",
+          name: "Gym",
+          component: importComponent("Kasir/GymPage"),
+        },
+        {
+          path: "/presensikelas",
+          name: "Kelas",
+          component: importComponent("Kasir/KelasPage"),
         },
         {
           path: "/pembayaran",
