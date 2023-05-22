@@ -230,13 +230,11 @@ export default {
                                 <h2>GoFit</h2>
                                 <p>Jl. Centralpark No. 10 Yogyakarta</p>
                             </div>
-
                             <div style="margin-top: 20px;">
                             <h3>STRUK PRESENSI KELAS PAKET</h3>
                                 <p>No Struk  : ${noStruk}</p>
                                 <p>Tanggal   : ${currentDate} ${currentTime}</p>
                             </div>
-
                             <div style="margin-top: 20px;">
                                 <p>Member       : ${nomorMember} / ${item.nama_member}</p>
                                 <p>Kelas        : ${kelas}</p>

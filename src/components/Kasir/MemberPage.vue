@@ -387,7 +387,7 @@
             console.log("Password cannot be empty");
             return;
         }
-        axios.put(`http://192.168.1.6/Server_Go_Fit/public/member/${this.formTodo.id_member}`, {
+        axios.put(`http://192.168.1.6/Server_Go_Fit/public/member/${this.formTodo.id_member}/editdata`, {
             id_member:this.formTodo.id_member,
             nama_member: this.formTodo.nama_member,
             password: this.formTodo.password,
@@ -406,7 +406,7 @@
             console.log("Link", `http://192.168.1.6/Server_Go_Fit/public/member/${this.formTodo.id_member}`);
             // router.push('/dashboardkasir')
             console.log(response.data);
-            window.location.reload(); // Refresh the page
+            // window.location.reload(); // Refresh the page
         })
         .catch(error => {
             if (error.response) {

@@ -384,7 +384,7 @@
     methods: {
       getTrainee() {
         axios
-          .get("http://10.53.6.143/Server_Go_Fit/public/jadwalharian")
+          .get("http://192.168.1.6/Server_Go_Fit/public/jadwalharian")
           .then((response) => {
             // filter and sort the data into morning, afternoon, and evening arrays
             this.morning = response.data.data.filter(item => {
@@ -416,7 +416,7 @@
           });
       },
       checkLastDay() {
-        const url = `http://10.53.6.143/Server_Go_Fit/public/jadwalharian`;
+        const url = `http://192.168.1.6/Server_Go_Fit/public/jadwalharian`;
         axios.get(url)
           .then(response => {
             // Handle successful response
@@ -467,7 +467,7 @@
 
       loadKelasOptions() {
         // fetch data from kelas database
-        axios.get('http://10.53.6.143/Server_Go_Fit/public/kelas')
+        axios.get('http://192.168.1.6/Server_Go_Fit/public/kelas')
           .then(response => {
             // map response data to an array of options
             this.kelasOptions = response.data.data.map((kelas) => kelas.nama_kelas);
@@ -478,7 +478,7 @@
       },
       loadInstrukturOptions() {
         // fetch data from kelas database
-        axios.get('http://10.53.6.143/Server_Go_Fit/public/instruktur')
+        axios.get('http://192.168.1.6/Server_Go_Fit/public/instruktur')
           .then(response => {
             // map response data to an array of options
             this.instrukturOptions = response.data.data.map((instruktur) => instruktur.nama);
@@ -495,7 +495,7 @@
       },
       save() {
         // Send a POST request to the backend API
-        axios.post('http://10.53.6.143/Server_Go_Fit/public/jadwalharian')
+        axios.post('http://192.168.1.6/Server_Go_Fit/public/jadwalharian')
           .then(response => {
             console.log(response.data);
             this.resetForm();
@@ -535,7 +535,7 @@
         if(this.formTodo.status != 'Digantikan'){
           this.saveupdate();
         }else{
-          const url = `http://10.53.6.143/Server_Go_Fit/public/jadwalharian/${this.formTodo.nama}/${this.formTodo.hari}/${formattedJam}`;
+          const url = `http://192.168.1.6/Server_Go_Fit/public/jadwalharian/${this.formTodo.nama}/${this.formTodo.hari}/${formattedJam}`;
           axios.get(url)
             .then(response => {
               if (response.data.data) {
@@ -567,7 +567,7 @@
       },
       saveupdate() {
           console.log(this.formTodo.id)
-          axios.put(`http://10.53.6.143/Server_Go_Fit/public/jadwalharian/${this.formTodo.id}`, {
+          axios.put(`http://192.168.1.6/Server_Go_Fit/public/jadwalharian/${this.formTodo.id}`, {
               status: this.formTodo.status,
               nama: this.formTodo.nama,
           })
@@ -585,20 +585,21 @@
           this.confirmEdit = false;
           // this.getTrainee();
         },
+      
   
       cancelUpdate() {
         this.resetForm();
         this.confirmEdit = false;
       },
       hapus() {
-        axios.delete(`http://10.53.6.143/Server_Go_Fit/public/jadwalharian/${this.formTodo.id}`)
+        axios.delete(`http://192.168.1.6/Server_Go_Fit/public/jadwalharian/${this.formTodo.id}`)
         window.location.reload();
       },
       cancelDelete() {
         this.confirmDelete = false;
       },
       deleteItem(item) {
-        axios.delete(`http://10.53.6.143/Server_Go_Fit/public/jadwalharian/${item.id}`)
+        axios.delete(`http://192.168.1.6/Server_Go_Fit/public/jadwalharian/${item.id}`)
         window.location.reload();
       },
       resetForm() {
