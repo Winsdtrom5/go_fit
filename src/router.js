@@ -97,6 +97,16 @@ export const router = new VueRouter({
           component: importComponent("MO/kelasPage"),
         },
         {
+          path: "/aktivitas",
+          name: "aktivitas",
+          component: importComponent("MO/aktivitaskelasPage"),
+        },
+        {
+          path: "/pendapatan",
+          name: "pendapatan",
+          component: importComponent("MO/pendapatanPage"),
+        },
+        {
           path: "/izin",
           name: "izin",
           component: importComponent("MO/izininstrukturPage"),

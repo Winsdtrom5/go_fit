@@ -127,7 +127,7 @@ export default {
     },
     getTrainee() {
       axios
-        .get("http://192.168.1.6/Server_Go_Fit/public/presensikelas")
+        .get("http://192.168.100.80/Server_Go_Fit/public/presensikelas")
         .then((response) => {
           this.todos = response.data.data;
         })
@@ -143,7 +143,7 @@ export default {
     confirmpresensi(item) {
       axios
         .get(
-          "http://192.168.1.6/Server_Go_Fit/public/presensikelas/" +
+          "http://192.168.100.80/Server_Go_Fit/public/presensikelas/" +
             item.nama_member +
             "/" +
             item.tanggal +
@@ -172,7 +172,7 @@ export default {
     printItem(item) {
       let nama_member = item.nama_member;
       axios
-        .get("http://192.168.1.6/Server_Go_Fit/public/member")
+        .get("http://192.168.100.80/Server_Go_Fit/public/member")
         .then((response) => {
           // filter the response data to find the member with matching nama_member
           const matchingMember = response.data.data.filter(
@@ -187,7 +187,7 @@ export default {
           let depositkelas = matchingMember.deposit_kelas;
           let berlaku = matchingMember.batas_berlaku;
           axios
-            .get("http://192.168.1.6/Server_Go_Fit/public/presensikelas")
+            .get("http://192.168.100.80/Server_Go_Fit/public/presensikelas")
             .then((response) => {
               let data = response.data.data;
               let latestID = 0;
@@ -204,7 +204,7 @@ export default {
               )[0];
               console.log(matchingMember)
               axios
-                .get(`http://192.168.1.6/Server_Go_Fit/public/bookingkelas`)
+                .get(`http://192.168.100.80/Server_Go_Fit/public/bookingkelas`)
                 .then((response) => {
                   const matchingbooking = response.data.data.filter(
                     (bookingkelas) =>
@@ -223,18 +223,20 @@ export default {
                   const currentDate = `${day}/${month}/${fullYear}`;
                   const currentTime = `${hours}:${minutes}`;
                   const noStruk = `${year}.${month}.${latestID}`;
-                  if (item.jenis != '') {
+                  if (item.jenis == 'paket') {
                     const printContents = `
                         <div style="border: 1px solid black; padding: 10px;">
                             <div>
                                 <h2>GoFit</h2>
                                 <p>Jl. Centralpark No. 10 Yogyakarta</p>
                             </div>
+                            <br>
                             <div style="margin-top: 20px;">
                             <h3>STRUK PRESENSI KELAS PAKET</h3>
                                 <p>No Struk  : ${noStruk}</p>
                                 <p>Tanggal   : ${currentDate} ${currentTime}</p>
                             </div>
+                            <br>
                             <div style="margin-top: 20px;">
                                 <p>Member       : ${nomorMember} / ${item.nama_member}</p>
                                 <p>Kelas        : ${kelas}</p>
@@ -264,13 +266,13 @@ export default {
                                 <h2>GoFit</h2>
                                 <p>Jl. Centralpark No. 10 Yogyakarta</p>
                             </div>
-
+                            <br>
                             <div style="margin-top: 20px;">
                                 <h3>STRUK PRESENSI KELAS REGULER</h3>
                                 <p>No Struk     : ${noStruk}</p>
                                 <p>Tanggal      : ${currentDate} ${currentTime}</p>
                             </div>
-
+                            <br>
                             <div style="margin-top: 20px;">
                                 <p>Member       : ${nomorMember} / ${item.nama_member}</p>
                                 <p>Kelas        : ${kelas}</p>
@@ -306,7 +308,7 @@ export default {
       formTodo.append("jam_keluar", this.itemToEdit.jam_keluar);
       formTodo.append("status", "Hadir");
       axios
-        .post("http://192.168.1.6/Server_Go_Fit/public/presensigym", formTodo)
+        .post("http://192.168.100.80/Server_Go_Fit/public/presensigym", formTodo)
         .then((response) => {
           // Handle successful response
           let toast = createToastInterface();
