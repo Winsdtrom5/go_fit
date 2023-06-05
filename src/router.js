@@ -97,9 +97,14 @@ export const router = new VueRouter({
           component: importComponent("MO/kelasPage"),
         },
         {
-          path: "/aktivitas",
+          path: "/aktivitasKelas",
           name: "aktivitas",
           component: importComponent("MO/aktivitaskelasPage"),
+        },
+        {
+          path: "/aktivitasGym",
+          name: "aktivitas",
+          component: importComponent("MO/aktivitasgymPage"),
         },
         {
           path: "/pendapatan",

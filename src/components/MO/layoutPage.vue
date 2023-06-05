@@ -70,8 +70,13 @@ export default {
             disabled: false
           },
           { 
-            title: "Laporan", 
-            to: "/laporan", 
+            title: "Laporan Aktivitas Kelas", 
+            to: "/aktivitas", 
+            disabled: false
+          },
+          { 
+            title: "Laporan Pendapatan Tahunan",
+            to: "/pendapatan", 
             disabled: false
           },
           { 
