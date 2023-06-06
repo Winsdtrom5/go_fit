@@ -2,41 +2,57 @@
   <div>
     <h1>GoFit</h1>
     <p>Jl. Centralpark No. 10 Yogyakarta</p>
+    <h2 class="section-title">Laporan Pendapatan Tahunan</h2>
+    <v-autocomplete
+      v-model="selectedYear"
+      :items="years"
+      label="Select Year"
+      outlined
+    ></v-autocomplete>
+    <v-btn v-if="selectedYear" @click="showDialog" color="brown" dark class="mt-4"> Preview </v-btn>
+    <v-dialog v-model="dialogVisible">
+      <v-card>
+        <div>
+          <h1>GoFit</h1>
+          <p>Jl. Centralpark No. 10 Yogyakarta</p>
 
-    <h2>LAPORAN PENDAPATAN BULANAN</h2>
-    <p>PERIODE: {{ currentYear }}</p>
+          <h2>LAPORAN PENDAPATAN BULANAN</h2>
+          <p>PERIODE: {{ currentYear }}</p>
 
-    <!-- Table -->
-    <table>
-      <thead>
-        <tr>
-          <th>Bulan</th>
-          <th>Aktivasi</th>
-          <th>Deposit</th>
-          <th>Total</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="item in incomeData" :key="item.bulan">
-          <td>{{ item.Bulan }}</td>
-          <td>{{ item.Aktivasi }}</td>
-          <td>{{ item.Deposit }}</td>
-          <td>{{ item.Total }}</td>
-        </tr>
-        <tr>
-          <td colspan="3" style="text-align: right">Total</td>
-          <td v-if="incomeData.length">
-            {{ getTotalFromJanuaryToDecember() }}
-          </td>
-          <td v-else>-</td>
-        </tr>
-      </tbody>
-    </table>
+          <!-- Table -->
+          <table>
+            <thead>
+              <tr>
+                <th>Bulan</th>
+                <th>Aktivasi</th>
+                <th>Deposit</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="item in incomeData" :key="item.bulan">
+                <td>{{ item.Bulan }}</td>
+                <td>{{ item.Aktivasi }}</td>
+                <td>{{ item.Deposit }}</td>
+                <td>{{ item.Total }}</td>
+              </tr>
+              <tr>
+                <td colspan="3" style="text-align: right">Total</td>
+                <td v-if="incomeData.length">
+                  {{ getTotalFromJanuaryToDecember() }}
+                </td>
+                <td v-else>-</td>
+              </tr>
+            </tbody>
+          </table>
 
-    <!-- Chart -->
-    <v-chart :data="chartData"></v-chart>
-    <!-- Button to print the table -->
-    <v-btn color="brown" dark @click="printTable"> Print </v-btn>
+          <!-- Chart -->
+          <v-chart :data="chartData"></v-chart>
+          <!-- Button to print the table -->
+          <v-btn color="brown" dark @click="printTable"> Print </v-btn>
+        </div>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -54,109 +70,83 @@ export default {
         month: "long",
         year: "numeric",
       }),
+      years: [],
+      selectedYear: "",
+      dialogVisible: false,
     };
   },
   created() {
-    this.fetchIncomeData();
+    this.fetchAvailableYears();
   },
   methods: {
+    fetchAvailableYears() {
+      const request1 = axios.get(
+        "http://192.168.1.5/Server_Go_Fit/public/deposituang"
+      );
+      const request2 = axios.get(
+        "http://192.168.1.5/Server_Go_Fit/public/depositkelas"
+      );
+      const request3 = axios.get(
+        "http://192.168.1.5/Server_Go_Fit/public/aktivasi"
+      );
+
+      Promise.all([request1, request2, request3])
+        .then(([response1, response2, response3]) => {
+          const data1 = response1.data.data;
+          const data2 = response2.data.data;
+          const data3 = response3.data.data;
+
+          const years1 = data1.map((item) =>
+            new Date(item.tanggal).getFullYear()
+          );
+          const years2 = data2.map((item) =>
+            new Date(item.tanggal).getFullYear()
+          );
+          const years3 = data3.map((item) =>
+            new Date(item.tanggal).getFullYear()
+          );
+
+          const allYears = [...years1, ...years2, ...years3];
+          this.years = [...new Set(allYears)]; // Remove duplicates and assign to years array
+        })
+        .catch((error) => {
+          console.log(error.response.data);
+        });
+    },
+    showDialog() {
+      this.dialogVisible = true;
+      this.fetchIncomeData(this.selectedYear);
+    },
     getTotalFromJanuaryToDecember() {
       let total = 0;
       for (let i = 0; i < this.incomeData.length; i++) {
         const item = this.incomeData[i];
         if (item.Bulan !== "Total") {
-          total += parseInt(item.Total.replace(/\./g, "").replace(",", ""));
+          const itemTotal =
+            typeof item.Total === "string"
+              ? item.Total.replace(/\./g, "").replace(",", "")
+              : item.Total;
+          total += parseInt(itemTotal);
         }
       }
       return total.toLocaleString();
     },
-    fetchIncomeData() {
+
+    fetchIncomeData(year) {
       const request1 = axios.get(
-        "http://10.53.7.170/Server_Go_Fit/public/depositkelas"
-      );
-      const request2 = axios.get(
-        "http://10.53.7.170/Server_Go_Fit/public/deposituang"
-      );
-      const request3 = axios.get(
-        "http://10.53.7.170/Server_Go_Fit/public/aktivasi"
+        `http://192.168.1.5/Server_Go_Fit/public/pendapatan/${year}`
       );
 
-      Promise.all([request1, request2, request3])
-        .then(([response1, response2, response3]) => {
-          const depositkelasData = response1.data.data;
-          const deposituangData = response2.data.data;
-          const aktivasidata = response3.data.data;
-          const filteredData = [];
-
-          // Iterate through each month (January to December)
-          for (let month = 0; month < 12; month++) {
-            const filteredDepositkelas = depositkelasData.filter((item) => {
-              const itemDate = new Date(item.tanggal);
-              return itemDate.getMonth() === month;
-            });
-
-            const filteredDeposituang = deposituangData.filter((item) => {
-              const itemDate = new Date(item.tanggal);
-              return itemDate.getMonth() === month;
-            });
-
-            const filteredAktivasi = aktivasidata.filter((item) => {
-              const itemDate = new Date(item.tanggal);
-              return itemDate.getMonth() === month;
-            });
-
-            let totalDeposit = 0;
-            let totalAktivasi = 0;
-
-            // Calculate the total deposit from "depositkelas"
-            for (const depositkelasItem of filteredDepositkelas) {
-              const depositAmount = parseFloat(depositkelasItem.harga);
-              totalDeposit += depositAmount;
-            }
-
-            // Calculate the total deposit from "deposituang" for the same month
-            const filteredDeposituangByMonth = filteredDeposituang.filter(
-              (deposituangItem) => {
-                const deposituangDate = new Date(deposituangItem.tanggal);
-                return (
-                  deposituangDate.getMonth() === month &&
-                  deposituangDate.getFullYear() === new Date().getFullYear()
-                );
-              }
-            );
-
-            for (const deposituangItem of filteredDeposituangByMonth) {
-              const depositAmount = parseFloat(deposituangItem.harga);
-              totalDeposit += depositAmount;
-            }
-
-            // Sum the "harga" values in "aktivasi" data for the same month
-            const filteredAktivasiByMonth = filteredAktivasi.filter(
-              (aktivasiItem) => {
-                const aktivasiDate = new Date(aktivasiItem.tanggal);
-                return (
-                  aktivasiDate.getMonth() === month &&
-                  aktivasiDate.getFullYear() === new Date().getFullYear()
-                );
-              }
-            );
-
-            for (const aktivasiItem of filteredAktivasiByMonth) {
-              const aktivasiAmount = parseFloat(aktivasiItem.harga);
-              totalAktivasi += aktivasiAmount;
-            }
-
-            // Create the entry for the month
-            const monthName = new Date(0, month).toLocaleString("default", {
-              month: "long",
-            });
-            filteredData.push({
-              Bulan: monthName,
-              Aktivasi: totalAktivasi.toLocaleString(),
-              Deposit: totalDeposit.toLocaleString(),
-              Total: (totalAktivasi + totalDeposit).toLocaleString(),
-            });
-          }
+      Promise.all([request1])
+        .then(([response1]) => {
+          console.log(response1.data.data);
+          const pendapatan = response1.data.data;
+          const filteredData = pendapatan.map((item) => ({
+            Bulan: item.Bulan,
+            Aktivasi: item.Aktivasi,
+            Deposit: item.Deposit,
+            Total: item.Total,
+          }));
 
           this.incomeData = filteredData;
           this.updateChartData();
@@ -165,13 +155,20 @@ export default {
           console.log(error.response.data);
         });
     },
+
     printTable() {
+      // Get the current year
       // Get the current year
       const currentYear = new Date().getFullYear();
 
       // Format the current date with Indonesian format (tanggal-bulan-tahun)
       const options = { day: "numeric", month: "long", year: "numeric" };
       const currentDate = new Date().toLocaleDateString("id-ID", options);
+
+      const chartContainer = document.createElement("div");
+      const chartCanvas = document.createElement("canvas");
+      chartCanvas.id = "chartCanvas";
+      chartContainer.appendChild(chartCanvas);
 
       const printContents = `
       <html>
@@ -243,6 +240,9 @@ export default {
                 </tr>
               </tbody>
             </table>
+            <br>
+          <br>
+          ${chartContainer.outerHTML}
         </body>
       </html>
     `;
