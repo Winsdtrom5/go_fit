@@ -122,7 +122,7 @@ export default {
     },
     fetchMonth() {
       const request = axios.get(
-        "http://192.168.1.5/Server_Go_Fit/public/jadwalharian/a/a/a/a/showall"
+        "https://gofit123.xyz/Server_Go_Fit/public/jadwalharian/a/a/a/a/showall"
       );
 
       request
@@ -149,7 +149,7 @@ export default {
     },
     fetchData(bulan, tahun) {
       const request1 = axios.get(
-        `http://192.168.1.5/Server_Go_Fit/public/aktivitaskelas/${bulan}/${tahun}`
+        `https://gofit123.xyz/Server_Go_Fit/public/aktivitaskelas/${bulan}/${tahun}`
       );
 
       Promise.all([request1])

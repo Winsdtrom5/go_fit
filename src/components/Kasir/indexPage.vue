@@ -89,7 +89,7 @@ export default {
     getusername(username) {
       console.log(username);
       axios
-        .get("http://192.168.1.2/Server_Go_Fit/public/pegawai/" + username, {})
+        .get("https://gofit123.xyz/Server_Go_Fit/public/pegawai/" + username, {})
         .then((response) => {
           let data = response.data.data;
           this.username = data[0].nama_pegawai;

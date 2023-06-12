@@ -208,7 +208,7 @@
     methods: {
       getTrainee() {
         axios
-          .get("http://192.168.1.5/Server_Go_Fit/public/pegawai")
+          .get("https://gofit123.xyz/Server_Go_Fit/public/pegawai")
           .then((response) => {
             // this.todos = response.data.data;
             this.todos = response.data.data.filter(item => item.jabatan !== "Admin");
@@ -227,7 +227,7 @@
         let no_telp = this.formTodo.no_telp
         let jabatan = this.formTodo.jabatan
         // formData.append("jabatan", this.formTodo.jabatan);
-        axios.post('http://192.168.1.5/Server_Go_Fit/public/pegawai', {
+        axios.post('https://gofit123.xyz/Server_Go_Fit/public/pegawai', {
           nama_pegawai: nama_pegawai,
           umur: umur,
           // tanggal_masuk: tanggal_masuk,
@@ -263,7 +263,7 @@
         // this.edit.tanggal_keluar = this.formTodo.tanggal_keluar;
         this.edit.no_telp = this.formTodo.no_telp;
         this.edit.jabatan = this.formTodo.jabatan;
-        axios.put('http://192.168.1.5/Server_Go_Fit/public/pegawai', {
+        axios.put('https://gofit123.xyz/Server_Go_Fit/public/pegawai', {
                 nama_pegawai: this.edit.nama_pegawai,
                 umur: this.edit.umur,
                 tanggal_masuk: this.edit.tanggal_masuk,

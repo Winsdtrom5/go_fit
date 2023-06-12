@@ -127,7 +127,7 @@ export default {
     },
     getTrainee() {
       axios
-        .get("http://192.168.100.80/Server_Go_Fit/public/presensikelas")
+        .get("https://gofit123.xyz/Server_Go_Fit/public/presensikelas")
         .then((response) => {
           this.todos = response.data.data;
         })
@@ -140,39 +140,10 @@ export default {
       this.resetForm();
       this.dialog = false;
     },
-    confirmpresensi(item) {
-      axios
-        .get(
-          "http://192.168.100.80/Server_Go_Fit/public/presensikelas/" +
-            item.nama_member +
-            "/" +
-            item.tanggal +
-            "/" +
-            item.jam_masuk +
-            "/" +
-            item.jam_keluar
-        )
-        .then((response) => {
-          if (response.data.data) {
-            let toast = createToastInterface();
-            toast.error("Sudah Melakukan Presensi", {
-              timeout: 2000,
-            });
-          } else {
-            this.itemToEdit = item;
-            this.confirmDialog = true; // Set confirmDialog to true to show the dialog
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-          this.itemToEdit = item;
-          this.confirmDialog = true; // Set confirmDialog to true to show the dialog
-        });
-    },
     printItem(item) {
       let nama_member = item.nama_member;
       axios
-        .get("http://192.168.100.80/Server_Go_Fit/public/member")
+        .get("https://gofit123.xyz/Server_Go_Fit/public/member")
         .then((response) => {
           // filter the response data to find the member with matching nama_member
           const matchingMember = response.data.data.filter(
@@ -187,7 +158,7 @@ export default {
           let depositkelas = matchingMember.deposit_kelas;
           let berlaku = matchingMember.batas_berlaku;
           axios
-            .get("http://192.168.100.80/Server_Go_Fit/public/presensikelas")
+            .get("https://gofit123.xyz/Server_Go_Fit/public/presensikelas")
             .then((response) => {
               let data = response.data.data;
               let latestID = 0;
@@ -204,7 +175,7 @@ export default {
               )[0];
               console.log(matchingMember)
               axios
-                .get(`http://192.168.100.80/Server_Go_Fit/public/bookingkelas`)
+                .get(`https://gofit123.xyz/Server_Go_Fit/public/bookingkelas`)
                 .then((response) => {
                   const matchingbooking = response.data.data.filter(
                     (bookingkelas) =>
@@ -297,33 +268,6 @@ export default {
                   }
                 });
             });
-        });
-    },
-    savepresensi() {
-      let formTodo = new FormData();
-      console.log(this.itemToEdit.nama_member);
-      formTodo.append("nama_member", this.itemToEdit.nama_member);
-      formTodo.append("tanggal", this.itemToEdit.tanggal);
-      formTodo.append("jam_masuk", this.itemToEdit.jam_masuk);
-      formTodo.append("jam_keluar", this.itemToEdit.jam_keluar);
-      formTodo.append("status", "Hadir");
-      axios
-        .post("http://192.168.100.80/Server_Go_Fit/public/presensigym", formTodo)
-        .then((response) => {
-          // Handle successful response
-          let toast = createToastInterface();
-          toast.success("Konfirmasi Berhasil", {
-            timeout: 2000,
-          });
-          console.log(response.data);
-          this.confirmDialog = false;
-          this.getTrainee();
-          // Do something with the response data, e.g. show success message
-        })
-        .catch((error) => {
-          // Handle error response
-          console.error(error);
-          // Do something with the error, e.g. show error message
         });
     },
     cancelUpdate() {

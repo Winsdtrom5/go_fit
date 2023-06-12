@@ -436,7 +436,7 @@ export default {
   methods: {
     getTrainee() {
       axios
-        .get("http://10.53.1.36/Server_Go_Fit/public/jadwalumum")
+        .get("https://gofit123.xyz/Server_Go_Fit/public/jadwalumum")
         .then((response) => {
           // filter and sort the data into morning, afternoon, and evening arrays
           this.morning = response.data.data.filter(item => {
@@ -465,7 +465,7 @@ export default {
     },
     loadKelasOptions() {
       // fetch data from kelas database
-      axios.get('http://10.53.1.36/Server_Go_Fit/public/kelas')
+      axios.get('https://gofit123.xyz/Server_Go_Fit/public/kelas')
         .then(response => {
           // map response data to an array of options
           this.kelasOptions = response.data.data.map((kelas) => kelas.nama_kelas);
@@ -476,7 +476,7 @@ export default {
     },
     loadInstrukturOptions() {
       // fetch data from kelas database
-      axios.get('http://10.53.1.36/Server_Go_Fit/public/instruktur')
+      axios.get('https://gofit123.xyz/Server_Go_Fit/public/instruktur')
         .then(response => {
           // map response data to an array of options
           this.instrukturOptions = response.data.data.map((instruktur) => instruktur.nama);
@@ -493,8 +493,8 @@ export default {
     },
     checkDuplicate() {
       console.log(this.formTodo.nama_instruktur,this.formTodo.hari,this.formTodo.nama_jam)
-      console.log(`http://10.53.1.36/Server_Go_Fit/public/jadwalumum/${this.formTodo.nama}/${this.formTodo.hari}/${this.formTodo.jam}`)
-      const url = `http://10.53.1.36/Server_Go_Fit/public/jadwalumum/${this.formTodo.nama}/${this.formTodo.hari}/${this.formTodo.jam}`;
+      console.log(`https://gofit123.xyz/Server_Go_Fit/public/jadwalumum/${this.formTodo.nama}/${this.formTodo.hari}/${this.formTodo.jam}`)
+      const url = `https://gofit123.xyz/Server_Go_Fit/public/jadwalumum/${this.formTodo.nama}/${this.formTodo.hari}/${this.formTodo.jam}`;
       axios.get(url)
         .then(response => {
           // Handle successful response
@@ -528,7 +528,7 @@ export default {
       formTodo.append('nama_kelas', this.formTodo.nama_kelas);
       
       // Send a POST request to the backend API
-      axios.post('http://10.53.1.36/Server_Go_Fit/public/jadwalumum', formTodo)
+      axios.post('https://gofit123.xyz/Server_Go_Fit/public/jadwalumum', formTodo)
         .then(response => {
           // Handle successful response
           console.log(response.data);
@@ -567,7 +567,7 @@ export default {
       const jam = jamDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
       const formattedJam = jam.replace('.', ':');
 
-      const url = `http://10.53.1.36/Server_Go_Fit/public/jadwalumum/${this.formTodo.nama}/${this.formTodo.hari}/${formattedJam}`;
+      const url = `https://gofit123.xyz/Server_Go_Fit/public/jadwalumum/${this.formTodo.nama}/${this.formTodo.hari}/${formattedJam}`;
       axios.get(url)
         .then(response => {
           if (response.data.data) {
@@ -596,7 +596,7 @@ export default {
         });
     },
     saveupdate() {
-        axios.put(`http://10.53.1.36/Server_Go_Fit/public/jadwalumum/${this.formTodo.id}`, {
+        axios.put(`https://gofit123.xyz/Server_Go_Fit/public/jadwalumum/${this.formTodo.id}`, {
             id:this.formTodo.id,
             jam: this.formTodo.jam,
             nama_kelas: this.formTodo.nama_kelas,
@@ -631,14 +631,14 @@ export default {
       this.confirmEdit = false;
     },
     hapus() {
-      axios.delete(`http://10.53.1.36/Server_Go_Fit/public/jadwalumum/${this.formTodo.id}`)
+      axios.delete(`https://gofit123.xyz/Server_Go_Fit/public/jadwalumum/${this.formTodo.id}`)
       window.location.reload();
     },
     cancelDelete() {
       this.confirmDelete = false;
     },
     deleteItem(item) {
-      axios.delete(`http://10.53.1.36/Server_Go_Fit/public/jadwalumum/${item.id}`)
+      axios.delete(`https://gofit123.xyz/Server_Go_Fit/public/jadwalumum/${item.id}`)
       window.location.reload();
     },
     resetForm() {

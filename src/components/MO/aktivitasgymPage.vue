@@ -90,7 +90,7 @@ export default {
     },
     fetchMonth() {
       const request = axios.get(
-        "http://192.168.1.5/Server_Go_Fit/public/presensigym"
+        "https://gofit123.xyz/Server_Go_Fit/public/presensigym"
       );
 
       request
@@ -135,7 +135,7 @@ export default {
     },
     fetchData(bulan, tahun) {
       const request1 = axios.get(
-        `http://192.168.1.5/Server_Go_Fit/public/aktivitasgym/${bulan}/${tahun}`
+        `https://gofit123.xyz/Server_Go_Fit/public/aktivitasgym/${bulan}/${tahun}`
       );
 
       Promise.all([request1])

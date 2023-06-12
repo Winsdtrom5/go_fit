@@ -81,13 +81,13 @@ export default {
   methods: {
     fetchAvailableYears() {
       const request1 = axios.get(
-        "http://192.168.1.5/Server_Go_Fit/public/deposituang"
+        "https://gofit123.xyz/Server_Go_Fit/public/deposituang"
       );
       const request2 = axios.get(
-        "http://192.168.1.5/Server_Go_Fit/public/depositkelas"
+        "https://gofit123.xyz/Server_Go_Fit/public/depositkelas"
       );
       const request3 = axios.get(
-        "http://192.168.1.5/Server_Go_Fit/public/aktivasi"
+        "https://gofit123.xyz/Server_Go_Fit/public/aktivasi"
       );
 
       Promise.all([request1, request2, request3])
@@ -134,7 +134,7 @@ export default {
 
     fetchIncomeData(year) {
       const request1 = axios.get(
-        `http://192.168.1.5/Server_Go_Fit/public/pendapatan/${year}`
+        `https://gofit123.xyz/Server_Go_Fit/public/pendapatan/${year}`
       );
 
       Promise.all([request1])

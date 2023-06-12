@@ -14,7 +14,7 @@
                         <v-form @submit.prevent="store">
 
                             <v-text-field v-model="form.username" :error-messages="errors.usernameErrors"
-                                placeholder="Enter your name" type="username"
+                                placeholder="Enter your email" type="username"
                                 class="rounded-0" outlined></v-text-field>
                             <v-text-field v-model="form.password" :error-messages="errors.passwordErrors"
                                 placeholder="Enter your password" type="password"
@@ -71,7 +71,7 @@ export default {
             console.log(form)
             let username = form.username
             let password = form.password
-            axios.get('http://192.168.100.80/Server_Go_Fit/public/pegawai/' + username + "/" + password, {})
+            axios.get('https://gofit123.xyz/Server_Go_Fit/public/pegawai/' + username + "/" + password, {})
             .then((response) => {
                 if (response && response.data && response.data.data) {
                     let data = response.data.data; // Access 'data' field in response

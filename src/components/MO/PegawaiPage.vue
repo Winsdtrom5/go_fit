@@ -201,7 +201,7 @@
     methods: {
       getTrainee() {
         axios
-          .get("http://192.168.1.5/Server_Go_Fit/public/pegawai")
+          .get("https://gofit123.xyz/Server_Go_Fit/public/pegawai")
           .then((response) => {
             // this.todos = response.data.data;
             this.todos = response.data.data.filter(item => item.jabatan !== "Admin");
@@ -228,7 +228,7 @@
       };
 
       // Make API call to update todo
-      axios.put(`http://192.168.1.5/Server_Go_Fit/public/pegawai/${this.editedTodo.id_pegawai}`, updatedTodo)
+      axios.put(`https://gofit123.xyz/Server_Go_Fit/public/pegawai/${this.editedTodo.id_pegawai}`, updatedTodo)
         .then(response => {
           // Update the todos array with the updated todo received from the server
           const todoIndex = this.todos.findIndex(todo => todo.id === this.editedTodo.id);
@@ -255,7 +255,7 @@
         formTodo.append('jabatan', this.formTodo.jabatan);
 
         // Send a POST request to the backend API
-        axios.post('http://192.168.1.5/Server_Go_Fit/public/pegawai', formTodo)
+        axios.post('https://gofit123.xyz/Server_Go_Fit/public/pegawai', formTodo)
           .then(response => {
             // Handle successful response
             console.log(response.data);
@@ -294,7 +294,7 @@
         // this.edit.tanggal_keluar = this.formTodo.tanggal_keluar;
         this.edit.no_telp = this.formTodo.no_telp;
         this.edit.jabatan = this.formTodo.jabatan;
-        axios.put('http://192.168.1.5/Server_Go_Fit/public/pegawai/', {
+        axios.put('https://gofit123.xyz/Server_Go_Fit/public/pegawai/', {
           nama_pegawai: this.edit.nama_pegawai,
           umur: this.edit.umur,
           // tanggal_masuk: this.edit.tanggal_masuk,

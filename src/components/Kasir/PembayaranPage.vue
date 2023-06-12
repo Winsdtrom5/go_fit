@@ -389,7 +389,7 @@ export default {
     loadKelasOptions() {
       // fetch data from kelas database
       axios
-        .get("http://10.53.1.36/Server_Go_Fit/public/kelas")
+        .get("https://gofit123.xyz/Server_Go_Fit/public/kelas")
         .then((response) => {
           // map response data to an array of options
           this.kelasOptions = response.data.data.map((kelas) => {
@@ -409,7 +409,7 @@ export default {
     loadpaketOptions() {
       // fetch data from kelas database
       axios
-        .get("http://10.53.1.36/Server_Go_Fit/public/promopaket")
+        .get("https://gofit123.xyz/Server_Go_Fit/public/promopaket")
         .then((response) => {
           // map response data to an array of options
           this.promoOptions = response.data.data.map((promo) => {
@@ -433,7 +433,7 @@ export default {
     loadMemberOptions() {
       // fetch data from kelas database
       axios
-        .get("http://10.53.1.36/Server_Go_Fit/public/member")
+        .get("https://gofit123.xyz/Server_Go_Fit/public/member")
         .then((response) => {
           // map response data to an array of options
           this.members = response.data.data.map((member) => {
@@ -459,7 +459,7 @@ export default {
     },
     getMemberData(memberName) {
       axios
-        .get("http://10.53.1.36/Server_Go_Fit/public/member")
+        .get("https://gofit123.xyz/Server_Go_Fit/public/member")
         .then((response) => {
           // filter the response data to find the member with matching nama_member
           const matchingMember = response.data.data.filter(
@@ -507,13 +507,13 @@ export default {
         let formdeposituang = new FormData();
         axios
           .get(
-            `http://10.53.1.36/Server_Go_Fit/public/deposituang/${this.formTodo.nama_member}`
+            `https://gofit123.xyz/Server_Go_Fit/public/deposituang/${this.formTodo.nama_member}`
           )
           .then((response) => {
             let minimal = response.data.data.total_deposit;
             axios
               .get(
-                `http://10.53.1.36/Server_Go_Fit/public/promoreguler/${this.formTodo.inputDeposit}/${minimal}`
+                `https://gofit123.xyz/Server_Go_Fit/public/promoreguler/${this.formTodo.inputDeposit}/${minimal}`
               )
               .then((response) => {
                 console.log(response.data.data);
@@ -540,7 +540,7 @@ export default {
                 console.log(formdeposituang);
                 axios
                   .post(
-                    "http://10.53.1.36/Server_Go_Fit/public/deposituang",
+                    "https://gofit123.xyz/Server_Go_Fit/public/deposituang",
                     formdeposituang
                   )
                   .then((response) => {
@@ -548,7 +548,7 @@ export default {
                     console.log(response.data);
                     axios
                       .get(
-                        "http://10.53.1.36/Server_Go_Fit/public/pegawai/" +
+                        "https://gofit123.xyz/Server_Go_Fit/public/pegawai/" +
                           this.username,
                         {}
                       )
@@ -559,7 +559,7 @@ export default {
                           this.namapegawai = data[0].nama_pegawai;
                           axios
                             .get(
-                              "http://10.53.1.36/Server_Go_Fit/public/deposituang"
+                              "https://gofit123.xyz/Server_Go_Fit/public/deposituang"
                             )
                             .then((response) => {
                               let data = response.data.data;
@@ -622,7 +622,7 @@ export default {
                               });
                               axios
                                 .get(
-                                  `http://10.53.1.36/Server_Go_Fit/public/deposituang/${this.formTodo.nama_member}`
+                                  `https://gofit123.xyz/Server_Go_Fit/public/deposituang/${this.formTodo.nama_member}`
                                 )
                                 .then((response) => {
                                   let data = response.data.data;
@@ -724,7 +724,7 @@ export default {
                 );
                 axios
                   .post(
-                    "http://10.53.1.36/Server_Go_Fit/public/deposituang",
+                    "https://gofit123.xyz/Server_Go_Fit/public/deposituang",
                     formdeposituang
                   )
                   .then((response) => {
@@ -732,7 +732,7 @@ export default {
                     console.log(response.data);
                     axios
                       .get(
-                        "http://10.53.1.36/Server_Go_Fit/public/pegawai/" +
+                        "https://gofit123.xyz/Server_Go_Fit/public/pegawai/" +
                           this.username,
                         {}
                       )
@@ -743,7 +743,7 @@ export default {
                           this.namapegawai = data[0].nama_pegawai;
                           axios
                             .get(
-                              "http://10.53.1.36/Server_Go_Fit/public/deposituang"
+                              "https://gofit123.xyz/Server_Go_Fit/public/deposituang"
                             )
                             .then((response) => {
                               let data = response.data.data;
@@ -806,7 +806,7 @@ export default {
                               });
                               axios
                                 .get(
-                                  `http://10.53.1.36/Server_Go_Fit/public/deposituang/${this.formTodo.nama_member}`
+                                  `https://gofit123.xyz/Server_Go_Fit/public/deposituang/${this.formTodo.nama_member}`
                                 )
                                 .then((response) => {
                                   let data = response.data.data;
@@ -902,7 +902,7 @@ export default {
                 );
                 axios
                   .post(
-                    "http://10.53.1.36/Server_Go_Fit/public/deposituang",
+                    "https://gofit123.xyz/Server_Go_Fit/public/deposituang",
                     formdeposituang
                   )
                   .then((response) => {
@@ -910,7 +910,7 @@ export default {
                     console.log(response.data);
                     axios
                       .get(
-                        "http://10.53.1.36/Server_Go_Fit/public/pegawai/" +
+                        "https://gofit123.xyz/Server_Go_Fit/public/pegawai/" +
                           this.username,
                         {}
                       )
@@ -921,7 +921,7 @@ export default {
                           this.namapegawai = data[0].nama_pegawai;
                           axios
                             .get(
-                              "http://10.53.1.36/Server_Go_Fit/public/deposituang"
+                              "https://gofit123.xyz/Server_Go_Fit/public/deposituang"
                             )
                             .then((response) => {
                               let data = response.data.data;
@@ -984,7 +984,7 @@ export default {
                               });
                               axios
                                 .get(
-                                  `http://10.53.1.36/Server_Go_Fit/public/deposituang/${this.formTodo.nama_member}`
+                                  `https://gofit123.xyz/Server_Go_Fit/public/deposituang/${this.formTodo.nama_member}`
                                 )
                                 .then((response) => {
                                   let data = response.data.data;
@@ -1087,14 +1087,14 @@ export default {
         let formdepositKelas = new FormData();
         axios
           .get(
-            `http://10.53.1.36/Server_Go_Fit/public/depositkelas/${this.formTodo.nama_member}/${this.formTodo.nama_kelas}`
+            `https://gofit123.xyz/Server_Go_Fit/public/depositkelas/${this.formTodo.nama_member}/${this.formTodo.nama_kelas}`
           )
           .then((response) => {
             console.log(response.data);
             let minimal = response.data.data.total_deposit;
             axios
               .get(
-                `http://10.53.1.36/Server_Go_Fit/public/promopaket/${this.formTodo.promo}/${minimal}`
+                `https://gofit123.xyz/Server_Go_Fit/public/promopaket/${this.formTodo.promo}/${minimal}`
               )
               .then((response) => {
                 console.log(response.data);
@@ -1123,7 +1123,7 @@ export default {
                 }
                 axios
                   .post(
-                    "http://10.53.1.36/Server_Go_Fit/public/depositkelas",
+                    "https://gofit123.xyz/Server_Go_Fit/public/depositkelas",
                     formdepositKelas
                   )
                   .then((response) => {
@@ -1131,7 +1131,7 @@ export default {
                     console.log(response.data);
                     axios
                       .get(
-                        "http://10.53.1.36/Server_Go_Fit/public/pegawai/" +
+                        "https://gofit123.xyz/Server_Go_Fit/public/pegawai/" +
                           this.username,
                         {}
                       )
@@ -1142,7 +1142,7 @@ export default {
                           this.namapegawai = data[0].nama_pegawai;
                           axios
                             .get(
-                              "http://10.53.1.36/Server_Go_Fit/public/depositkelas"
+                              "https://gofit123.xyz/Server_Go_Fit/public/depositkelas"
                             )
                             .then((response) => {
                               let data = response.data.data;
@@ -1295,7 +1295,7 @@ export default {
             console.log(selectedpromo.id_promo);
             axios
               .post(
-                "http://10.53.1.36/Server_Go_Fit/public/depositkelas",
+                "https://gofit123.xyz/Server_Go_Fit/public/depositkelas",
                 formdepositKelas
               )
               .then((response) => {
@@ -1304,7 +1304,7 @@ export default {
                 console.log(response.data);
                 axios
                   .get(
-                    "http://10.53.1.36/Server_Go_Fit/public/pegawai/" +
+                    "https://gofit123.xyz/Server_Go_Fit/public/pegawai/" +
                       this.username,
                     {}
                   )
@@ -1315,7 +1315,7 @@ export default {
                       this.namapegawai = data[0].nama_pegawai;
                       axios
                         .get(
-                          "http://10.53.1.36/Server_Go_Fit/public/depositkelas"
+                          "https://gofit123.xyz/Server_Go_Fit/public/depositkelas"
                         )
                         .then((response) => {
                           let data = response.data.data;
@@ -1470,7 +1470,7 @@ export default {
           .slice(0, 10); // format as yyyy-mm-dd
         axios
           .put(
-            "http://10.53.1.36/Server_Go_Fit/public/member/" +
+            "https://gofit123.xyz/Server_Go_Fit/public/member/" +
               this.formMember.id_member,
             {
               Expiration_Date: date,
@@ -1497,7 +1497,7 @@ export default {
         console.log(formAktivasi);
         axios
           .post(
-            "http://10.53.1.36/Server_Go_Fit/public/aktivasi",
+            "https://gofit123.xyz/Server_Go_Fit/public/aktivasi",
             formAktivasi
           )
           .then((response) => {
@@ -1509,7 +1509,7 @@ export default {
               year + "." + month + "." + this.formMember.id_member;
             axios
               .get(
-                "http://10.53.1.36/Server_Go_Fit/public/pegawai/" +
+                "https://gofit123.xyz/Server_Go_Fit/public/pegawai/" +
                   this.username,
                 {}
               )
@@ -1519,7 +1519,7 @@ export default {
                   this.idpegawai = data[0].id_pegawai;
                   this.namapegawai = data[0].nama_pegawai;
                   axios
-                    .get("http://10.53.1.36/Server_Go_Fit/public/aktivasi")
+                    .get("https://gofit123.xyz/Server_Go_Fit/public/aktivasi")
                     .then((response) => {
                       let data = response.data.data;
                       let latestID = 0;
@@ -1648,7 +1648,7 @@ export default {
       this.getMemberData(newValue);
       axios
         .get(
-          "http://10.53.1.36/Server_Go_Fit/public/deposituang/" + newValue,
+          "https://gofit123.xyz/Server_Go_Fit/public/deposituang/" + newValue,
           {}
         )
         .then((response) => {
@@ -1678,7 +1678,7 @@ export default {
     "formTodo.inputDeposit": function (newVal) {
       this.formdeposituang.total = newVal;
       axios
-        .get("http://10.53.1.36/Server_Go_Fit/public/promoreguler")
+        .get("https://gofit123.xyz/Server_Go_Fit/public/promoreguler")
         .then((response) => {
           const data = response.data.data;
           const promo = data.find(

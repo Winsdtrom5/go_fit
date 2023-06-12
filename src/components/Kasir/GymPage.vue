@@ -169,10 +169,10 @@ export default {
     },
     getTrainee() {
       axios
-        .get("http://192.168.100.80/Server_Go_Fit/public/bookinggym")
+        .get("https://gofit123.xyz/Server_Go_Fit/public/bookinggym")
         .then((response1) => {
           axios
-            .get("http://192.168.100.80/Server_Go_Fit/public/presensigym")
+            .get("https://gofit123.xyz/Server_Go_Fit/public/presensigym")
             .then((response2) => {
               this.todos = [...response1.data.data, ...response2.data.data];
               console.log("todos", this.todos);
@@ -192,7 +192,7 @@ export default {
     confirmpresensi(item) {
       axios
         .get(
-          "http://192.168.100.80/Server_Go_Fit/public/presensigym/" +
+          "https://gofit123.xyz/Server_Go_Fit/public/presensigym/" +
             item.nama_member +
             "/" +
             item.tanggal +
@@ -220,7 +220,7 @@ export default {
     },
     printItem(item) {
       axios
-        .get("http://192.168.100.80/Server_Go_Fit/public/member")
+        .get("https://gofit123.xyz/Server_Go_Fit/public/member")
         .then((response) => {
           // filter the response data to find the member with matching nama_member
           const matchingMember = response.data.data.filter(
@@ -232,7 +232,7 @@ export default {
           let month2 = date_daftar.substr(5, 2);
           let nomorMember = year2 + "." + month2 + "." + id_member;
           axios
-            .get("http://192.168.100.80/Server_Go_Fit/public/presensigym")
+            .get("https://gofit123.xyz/Server_Go_Fit/public/presensigym")
             .then((response) => {
               let data = response.data.data;
               let latestID = 0;
@@ -298,7 +298,7 @@ export default {
       formTodo.append("jam_keluar", this.itemToEdit.jam_keluar);
       formTodo.append("status", "Hadir");
       axios
-        .post("http://192.168.100.80/Server_Go_Fit/public/presensigym", formTodo)
+        .post("https://gofit123.xyz/Server_Go_Fit/public/presensigym", formTodo)
         .then((response) => {
           // Handle successful response
           let toast = createToastInterface();

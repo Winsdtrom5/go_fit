@@ -165,7 +165,7 @@
     methods: {
       getTrainee() {
         axios
-          .get("http://10.53.6.143/Server_Go_Fit/public/izininstruktur")
+          .get("https://gofit123.xyz/Server_Go_Fit/public/izininstruktur")
           .then((response) => {
             // this.todos = response.data.data;
             this.todos = response.data.data.filter(item => item.jabatan !== "Admin");
@@ -196,7 +196,7 @@
         this.confirmDelete = false;
       },
       editConfirmed() {
-        axios.put('http://10.53.6.143/Server_Go_Fit/public/izininstruktur/' + this.itemToEdit.id)
+        axios.put('https://gofit123.xyz/Server_Go_Fit/public/izininstruktur/' + this.itemToEdit.id)
           .then(response => {
             console.log(response.data);
             this.getTrainee();

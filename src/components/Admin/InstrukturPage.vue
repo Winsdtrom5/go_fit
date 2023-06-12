@@ -196,7 +196,7 @@
         let today = new Date();
         let nextYear = new Date();
         nextYear.setFullYear(today.getFullYear() + 1);
-        axios.put(`http:///Server_Go_Fit/public/instruktur/${this.formTodo.id_instruktur}`, {
+        axios.put(`https://gofit123.xyz/Server_Go_Fit/public/instruktur/${this.formTodo.id_instruktur}`, {
             id_instruktur:this.formTodo.id_instruktur,
             nama: this.formTodo.nama,
             password: this.formTodo.password,
@@ -206,7 +206,7 @@
         .then(response => {
             console.log("Edit instruktur success");
             console.log('response password', this.formTodo.password);
-            console.log("Link", `http:///Server_Go_Fit/public/instruktur/${this.formTodo.id_instruktur}`);
+            console.log("Link", `https://gofit123.xyz/Server_Go_Fit/public/instruktur/${this.formTodo.id_instruktur}`);
             // router.push('/dashboardkasir')
             console.log(response.data);
             window.location.reload(); // Refresh the page
@@ -231,7 +231,7 @@
       },
       getTrainee() {
         axios
-          .get("http://10.53.6.143/Server_Go_Fit/public/instruktur")
+          .get("https://gofit123.xyz/Server_Go_Fit/public/instruktur")
           .then((response) => {
             // this.todos = response.data.data;
             this.todos = response.data.data;
@@ -258,7 +258,7 @@
         formTodo.append('password', this.formTodo.password);
         formTodo.append('umur', this.formTodo.umur);
         formTodo.append('no_telp', this.formTodo.no_telp);
-        axios.post('http://10.53.6.143/Server_Go_Fit/public/instruktur', formTodo)
+        axios.post('https://gofit123.xyz/Server_Go_Fit/public/instruktur', formTodo)
           .then(response => {
             // Handle successful response
             console.log(response.data);
@@ -291,10 +291,10 @@
         this.confirmDialog = true;
       },
       editConfirmed() {
-        axios.put('http://10.53.6.143/Server_Go_Fit/public/instruktur/reset')
+        axios.put('https://gofit123.xyz/Server_Go_Fit/public/instruktur/reset')
           .then(response => {
             console.log(response.data);
-            console.log('http://10.53.6.143/Server_Go_Fit/public/instruktur/reset')
+            console.log('https://gofit123.xyz/Server_Go_Fit/public/instruktur/reset')
             let toast = createToastInterface();
             toast.success("Reset Keterlambatan successful", {
               timeout: 2000
@@ -310,7 +310,7 @@
         this.confirmDialog = false;
       },
       update() {
-        axios.put(`http://10.53.6.143/Server_Go_Fit/public/instruktur/${this.formTodo.id_instruktur}`, {
+        axios.put(`https://gofit123.xyz/Server_Go_Fit/public/instruktur/${this.formTodo.id_instruktur}`, {
             id_instruktur:this.formTodo.id_instruktur,
             nama_instruktur: this.formTodo.nama,
             password: this.formTodo.password,
@@ -320,7 +320,7 @@
         .then(response => {
             console.log("Edit instruktur success");
             console.log('response password', this.formTodo.password);
-            console.log("Link", `http://10.53.6.143/Server_Go_Fit/public/instruktur/${this.formTodo.id_instruktur}`);
+            console.log("Link", `https://gofit123.xyz/Server_Go_Fit/public/instruktur/${this.formTodo.id_instruktur}`);
             // router.push('/dashboardkasir')
             console.log(response.data);
             window.location.reload(); // Refresh the page
@@ -356,7 +356,7 @@
         this.confirmDelete = false;
       },
       deleteItem(item) {
-        axios.delete(`http://10.53.6.143/Server_Go_Fit/public/instruktur/${item.id_instruktur}`)
+        axios.delete(`https://gofit123.xyz/Server_Go_Fit/public/instruktur/${item.id_instruktur}`)
         console.log(item.id_instruktur)
         window.location.reload();
       },
