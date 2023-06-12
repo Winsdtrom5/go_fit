@@ -583,7 +583,7 @@ export default {
             } else {
               // Show warning message
               let toast = createToastInterface();
-              toast.warning("Data has been changed. Please reload the page and try again", {
+              toast.warning("Data has been changed", {
                 timeout: 2000
               });
               return;
@@ -605,7 +605,8 @@ export default {
         })
         .then(response => {
             console.log(response.data);
-            window.location.reload(); // Refresh the page
+            // window.location.reload();
+            this.getTrainee(); // Refresh the page
         })
         .catch(error => {
             if (error.response) {
@@ -632,14 +633,16 @@ export default {
     },
     hapus() {
       axios.delete(`https://gofit123.xyz/Server_Go_Fit/public/jadwalumum/${this.formTodo.id}`)
-      window.location.reload();
+      // window.location.reload();
+      this.getTrainee();
     },
     cancelDelete() {
       this.confirmDelete = false;
     },
     deleteItem(item) {
       axios.delete(`https://gofit123.xyz/Server_Go_Fit/public/jadwalumum/${item.id}`)
-      window.location.reload();
+      // window.location.reload();
+      this.getTrainee();
     },
     resetForm() {
       this.formTodo = {

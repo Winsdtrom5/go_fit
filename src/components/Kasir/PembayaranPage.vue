@@ -1624,7 +1624,8 @@ export default {
             console.log(response.data);
             this.resetForm();
             this.dialog = false;
-            window.location.reload();
+            this.loadMemberOptions();
+            // window.location.reload();
             // Do something with the response data, e.g. show success message
           })
           .catch((error) => {

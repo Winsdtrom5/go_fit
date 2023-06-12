@@ -501,7 +501,7 @@
             this.resetForm();
             this.dialog = false;
             this.getTrainee();
-            window.location.reload();
+            // window.location.reload();
             // Do something with the response data, e.g. show success message
           })
           .catch(error => {
@@ -551,7 +551,7 @@
                 } else {
                   // Show warning message
                   let toast = createToastInterface();
-                  toast.warning("Data has been changed. Please reload the page and try again", {
+                  toast.warning("Data has been changed", {
                     timeout: 2000
                   });
                   return;
@@ -581,7 +581,8 @@
                   console.log("Error response data:", error.response.data);
               }
           });
-          window.location.reload(); 
+          // window.location.reload(); 
+          this.getTrainee();
           this.confirmEdit = false;
           // this.getTrainee();
         },
@@ -593,14 +594,16 @@
       },
       hapus() {
         axios.delete(`https://gofit123.xyz/Server_Go_Fit/public/jadwalharian/${this.formTodo.id}`)
-        window.location.reload();
+        // window.location.reload();
+        this.getTrainee();
       },
       cancelDelete() {
         this.confirmDelete = false;
       },
       deleteItem(item) {
         axios.delete(`https://gofit123.xyz/Server_Go_Fit/public/jadwalharian/${item.id}`)
-        window.location.reload();
+        // window.location.reload();
+        this.getTrainee();
       },
       resetForm() {
         this.formTodo = {

@@ -209,7 +209,8 @@
             console.log("Link", `https://gofit123.xyz/Server_Go_Fit/public/instruktur/${this.formTodo.id_instruktur}`);
             // router.push('/dashboardkasir')
             console.log(response.data);
-            window.location.reload(); // Refresh the page
+            this.getTrainee()
+            // window.location.reload(); // Refresh the page
         })
         .catch(error => {
             if (error.response) {

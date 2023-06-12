@@ -407,6 +407,7 @@
             // router.push('/dashboardkasir')
             console.log(response.data);
             // window.location.reload(); // Refresh the page
+            this.getTrainee()
         })
         .catch(error => {
             if (error.response) {
@@ -562,7 +563,8 @@
               timeout: 2000
             });
             setTimeout(() => {
-              window.location.reload();
+              // window.location.reload();
+              this.getTrainee()
             }, 2000);
       },
       deleteItem(item) {
