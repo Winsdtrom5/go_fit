@@ -1470,7 +1470,7 @@ export default {
           .slice(0, 10); // format as yyyy-mm-dd
         axios
           .put(
-            `https://gofit123.xyz/Server_Go_Fit/public/member/${this.formTodo.id_member}/editdata`,
+            `https://gofit123.xyz/Server_Go_Fit/public/member/${this.members.id_member}/editdata`,
             {
               Expiration_Date: date,
               status: "active",
