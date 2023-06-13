@@ -1696,18 +1696,18 @@ export default {
           console.log(error);
         });
     },
-    // "formTodo.promo": function (newVal) {
-    //   console.log("jumlah_deposit changed: ", newVal);
-    //   if (this.formTodo.nama_kelas && newVal) {
-    //     const selectedpaket = this.formpromopaket.find(
-    //       (paket) => paket.nama_promo == this.formTodo.promo.toString()
-    //     );
-    //     console.log("selectedKelas: ", selectedpaket);
-    //     if (selectedpaket) {
-    //       this.jumlah_deposit = selectedpaket.minimal;
-    //     }
-    //   }
-    // },
+    "formTodo.promo": function (newVal) {
+      console.log("jumlah_deposit changed: ", newVal);
+      if (this.formTodo.nama_kelas && newVal) {
+        const selectedpaket = this.formpromopaket.find(
+          (paket) => paket.nama_promo == this.formTodo.promo.toString()
+        );
+        console.log("selectedKelas: ", selectedpaket);
+        if (selectedpaket) {
+          this.jumlah_deposit = selectedpaket.minimal;
+        }
+      }
+    },
     jumlah_deposit: function (newVal) {
       console.log("jumlah_deposit changed: ", newVal);
       if (this.formTodo.nama_kelas && newVal) {
