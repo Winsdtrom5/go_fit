@@ -212,7 +212,7 @@
             id_instruktur:this.formTodo.id_instruktur,
             nama: this.formTodo.nama,
             password: this.formTodo.password,
-            email: this.formTodo,email,
+            email: this.formTodo.email, // Fix the typo here
             umur: this.formTodo.umur,
             no_telp: this.formTodo.no_telp,
         })
