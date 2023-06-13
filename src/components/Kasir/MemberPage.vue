@@ -262,11 +262,11 @@
       this.getTrainee();
       // this.filteredTodos.forEach(item => this.checkExpirationDate(item));
     },
-    watch: {
+    // watch: {
       // filteredTodos: function() {
       //   this.checkExpirationDate();
       // }
-    },
+    // },
     computed: {
       filteredTodos() {
         if (this.search) {
@@ -375,7 +375,7 @@
             deposit_uang: this.formTodo.deposit_uang,
             deposit_kelas: this.formTodo.deposit_kelas,
             Expiration_Date: this.formTodo.Expiration_Date,
-            status: 'active'
+            status: this.formTodo.status,
         })
         .then(response => {
             console.log("Edit Member success");
