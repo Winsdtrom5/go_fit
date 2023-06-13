@@ -270,6 +270,7 @@
         let formTodo = new FormData();
         formTodo.append('nama', this.formTodo.nama);
         formTodo.append('password', this.formTodo.password);
+        formTodo.append('email', this.formTodo.email);
         formTodo.append('umur', this.formTodo.umur);
         formTodo.append('no_telp', this.formTodo.no_telp);
         axios.post('https://gofit123.xyz/Server_Go_Fit/public/instruktur', formTodo)
