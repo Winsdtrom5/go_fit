@@ -463,7 +463,7 @@
         formTodo.append('deposit_uang', 0);
         formTodo.append('deposit_kelas', 0);
         formTodo.append('Expiration_Date', date);
-        formTodo.append('status', 'deactive');
+        formTodo.append('status', "deactive");
         // Send a POST request to the backend API
         axios.post('https://gofit123.xyz/Server_Go_Fit/public/member', formTodo)
           .then(response => {
