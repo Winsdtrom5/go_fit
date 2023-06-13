@@ -1470,14 +1470,14 @@ export default {
           .slice(0, 10); // format as yyyy-mm-dd
         axios
           .put(
-            `https://gofit123.xyz/Server_Go_Fit/public/member/${this.members.id_member}/editdata`,
+            `https://gofit123.xyz/Server_Go_Fit/public/member/${this.formMember.id_member}/editdata`,
             {
               Expiration_Date: date,
               status: "active",
             }
           )
           .then((response) => {
-            console.log(`https://gofit123.xyz/Server_Go_Fit/public/member/${this.members.id_member}/editdata`)
+            console.log(`https://gofit123.xyz/Server_Go_Fit/public/member/${this.formMember.id_member}/editdata`)
             this.isActivated = true;
             this.errorMessage = "";
             console.log(response);
