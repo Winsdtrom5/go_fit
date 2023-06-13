@@ -263,9 +263,9 @@
       // this.filteredTodos.forEach(item => this.checkExpirationDate(item));
     },
     watch: {
-      filteredTodos: function() {
-        this.checkExpirationDate();
-      }
+      // filteredTodos: function() {
+      //   this.checkExpirationDate();
+      // }
     },
     computed: {
       filteredTodos() {
@@ -320,29 +320,6 @@
             timeout: 2000
           });
           setTimeout(() => {
-            // const printWindow = window.open('', 'Print Window', 'height=400,width=600');
-            // // Write the print contents to the new window
-            // printWindow.document.write(printContents);
-            // const printWidth = 400; // Width of print window
-            // const printHeight = 250.2; // Height of print window
-            // const pdf = new jsPDF({
-            //   orientation: printWidth > printHeight ? "landscape" : "portrait",
-            //   unit: "px",
-            //   format: [printWidth, printHeight]
-            // });
-            // // Add the print contents to the PDF document
-            // pdf.html(printContents, {
-            //   callback: function () {
-            //     // Print the PDF document
-            //     pdf.autoPrint();
-            //     // Save the PDF document to a file
-            //     pdf.save('member_card_'+item.nama_member+'.pdf');
-            //   }
-            // });
-            // // Wait for the window to load and then call the print method
-            // printWindow.onload = function() {
-            //     printWindow.print();
-            // };
             const popup = window.open("", "_blank");
             if (popup) {
               popup.document.write(printContents);
@@ -369,7 +346,7 @@
           .then((response) => {
             // this.todos = response.data.data;
             this.todos = response.data.data
-            console.log('response', this.todos);
+            console.log('response', response.data.data);
             let toast = createToastInterface();
             toast.success("Show Data Success !", {
               timeout: 2000
