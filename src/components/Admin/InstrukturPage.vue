@@ -59,6 +59,11 @@
                 required
               ></v-text-field>
               <v-text-field
+                v-model="formTodo.email"
+                label="Email instruktur"
+                required
+              ></v-text-field>
+              <v-text-field
                 v-model="formTodo.password"
                 label="Password instruktur"
                 required
@@ -113,6 +118,11 @@
                 required
               ></v-text-field>
               <v-text-field
+                v-model="formTodo.email"
+                label="Email instruktur"
+                required
+              ></v-text-field>
+              <v-text-field
                 v-model="formTodo.password"
                 label="Password instruktur"
                 required
@@ -153,6 +163,7 @@
         confirmDelete: false,
         headers: [
           { text: "Nama Instruktur", value: "nama" },
+          { text: "Email", value: "email" },
           { text: "Umur", value: "umur" },
           { text: "Nomor Telepon", value: "no_telp" },
           { text: "Total Keterlambatan", value: "keterlambatan" },
@@ -164,6 +175,7 @@
           id_instruktur:null,
           nama: null,
           umur: null,
+          email:null,
           no_telp:null,
           keterlambatan:null,
         },
@@ -200,6 +212,7 @@
             id_instruktur:this.formTodo.id_instruktur,
             nama: this.formTodo.nama,
             password: this.formTodo.password,
+            email: this.formTodo,email,
             umur: this.formTodo.umur,
             no_telp: this.formTodo.no_telp,
         })
