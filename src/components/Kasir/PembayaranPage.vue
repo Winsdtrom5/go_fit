@@ -686,7 +686,6 @@ export default {
                                     popup.document.close();
                                     popup.focus();
                                     popup.print();
-                                    popup.close();
                                   }, 2000);
                                 });
                             });
@@ -870,7 +869,6 @@ export default {
                                     popup.document.close();
                                     popup.focus();
                                     popup.print();
-                                    popup.close();
                                   }, 2000);
                                 });
                             });
@@ -1048,7 +1046,6 @@ export default {
                                     popup.document.close();
                                     popup.focus();
                                     popup.print();
-                                    popup.close();
                                   }, 2000);
                                 });
                             });
@@ -1258,7 +1255,6 @@ export default {
                                 popup.document.close();
                                 popup.focus();
                                 popup.print();
-                                popup.close();
                               }, 2000);
                             });
                           // Do something with the response data, e.g. show success message
@@ -1426,7 +1422,6 @@ export default {
                             popup.document.close();
                             popup.focus();
                             popup.print();
-                            popup.close();
                           }, 2000);
                         });
                       // Do something with the response data, e.g. show success message
@@ -1610,7 +1605,6 @@ export default {
                         popup.document.close();
                         popup.focus();
                         popup.print();
-                        popup.close();
                       }, 2000);
                     })
                     .catch((error) => {
