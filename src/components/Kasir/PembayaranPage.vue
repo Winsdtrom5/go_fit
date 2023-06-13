@@ -574,7 +574,6 @@ export default {
                               const year = now
                                 .getFullYear()
                                 .toString()
-                                .substr(-2);
                               const month = ("0" + (now.getMonth() + 1)).slice(
                                 -2
                               );
@@ -757,7 +756,6 @@ export default {
                               const year = now
                                 .getFullYear()
                                 .toString()
-                                .substr(-2);
                               const month = ("0" + (now.getMonth() + 1)).slice(
                                 -2
                               );
@@ -934,7 +932,6 @@ export default {
                               const year = now
                                 .getFullYear()
                                 .toString()
-                                .substr(-2);
                               const month = ("0" + (now.getMonth() + 1)).slice(
                                 -2
                               );
@@ -1327,7 +1324,7 @@ export default {
                             }
                           });
                           const now = new Date();
-                          const year = now.getFullYear().toString().substr(-2);
+                          const year = now.getFullYear().toString();
                           const month = ("0" + (now.getMonth() + 1)).slice(-2);
                           const day = ("0" + now.getDate()).slice(-2);
                           const hours = ("0" + now.getHours()).slice(-2);
@@ -1465,8 +1462,7 @@ export default {
           .slice(0, 10); // format as yyyy-mm-dd
         axios
           .put(
-            "https://gofit123.xyz/Server_Go_Fit/public/member/" +
-              this.formMember.id_member,
+            `https://gofit123.xyz/Server_Go_Fit/public/member/${this.formTodo.id_member}/editdata`,
             {
               Expiration_Date: date,
               status: "active",
@@ -1525,7 +1521,7 @@ export default {
                         }
                       });
                       const now = new Date();
-                      const year = now.getFullYear().toString().substr(-2);
+                      const year = now.getFullYear().toString();
                       const month = ("0" + (now.getMonth() + 1)).slice(-2);
                       const day = ("0" + now.getDate()).slice(-2);
                       const hours = ("0" + now.getHours()).slice(-2);
