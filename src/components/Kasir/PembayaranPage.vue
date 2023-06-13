@@ -1477,6 +1477,7 @@ export default {
             }
           )
           .then((response) => {
+            console.log(`https://gofit123.xyz/Server_Go_Fit/public/member/${this.formTodo.id_member}/editdata`)
             this.isActivated = true;
             this.errorMessage = "";
             console.log(response);
